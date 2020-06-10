@@ -5,6 +5,8 @@ import static helpers.Artist.*;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
+import helpers.Clock;
+
 public class StartUp
 {
     public StartUp()
@@ -34,7 +36,10 @@ public class StartUp
         grid.setTile(3, 5, grid.getTile(3, 4)
             .getType()); //test setter with getter, change one below Grass to Dirt
         Enemy enemyTest = new Enemy(quickLoadPngTexture("enemy"),
-                grid.getTile(2, 2), 64, 64, 2);
+                grid.getTile(2, 2), 64, 64, 6);
+        Wave waveTest = new Wave(20, enemyTest);
+        Player playerTest = new Player(grid);
+
         // to be deleted        
         //        Tile tile = new Tile(0, 0, 64, 64, TileType.Grass); // makes an actual tile
         //        Tile tile2 = new Tile(0, 64, 64, 64, TileType.Water);
@@ -104,8 +109,15 @@ public class StartUp
             //            tile.draw();
             //            tile2.draw();
 
+            Clock.update(); //always update the clock before drawing enemies
+            // to be deleted
+            //            enemyTest.update();
+
             grid.draw();
-            enemyTest.draw();
+            waveTest.update();
+            playerTest.update();
+            // to be deleted
+            //            enemyTest.draw();
 
             Display.update();
             Display.sync(60);
