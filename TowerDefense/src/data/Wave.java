@@ -36,7 +36,8 @@ public class Wave
 
     private void spawn()
     {
-        _enemyList.add(new Enemy(_enemyType.getTexture(),
-                _enemyType.getStartTile(), 64, 64, _enemyType.getSpeed()));
+        _enemyList
+            .add(new Enemy(_enemyType.getTexture(), _enemyType.getStartTile(),
+                    _enemyType.getTileGrid(), 64, 64, _enemyType.getSpeed()));
     }
 }

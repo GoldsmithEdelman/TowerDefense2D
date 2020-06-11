@@ -36,7 +36,7 @@ public class StartUp
         grid.setTile(3, 5, grid.getTile(3, 4)
             .getType()); //test setter with getter, change one below Grass to Dirt
         Enemy enemyTest = new Enemy(quickLoadPngTexture("enemy"),
-                grid.getTile(2, 2), 64, 64, 6);
+                grid.getTile(2, 2), grid, 64, 64, 6);
         Wave waveTest = new Wave(20, enemyTest);
         Player playerTest = new Player(grid);
 

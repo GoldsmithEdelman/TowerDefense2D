@@ -1,9 +1,9 @@
 package data;
 
-import org.newdawn.slick.opengl.Texture;
+import static helpers.Artist.drawRectangleTexture;
+import static helpers.Clock.delta;
 
-import static helpers.Artist.*;
-import static helpers.Clock.*;
+import org.newdawn.slick.opengl.Texture;
 
 /**
  * 
@@ -21,11 +21,12 @@ public class Enemy
     private float _speed;
     private Texture _texture;
     private Tile _startTile;
+    private TileGrid _grid;
 
     private boolean _first = true; //temporary fix for clock settings
 
-    public Enemy(Texture texture, Tile startTile, int width, int height,
-            float speed)
+    public Enemy(Texture texture, Tile startTile, TileGrid grid, int width,
+            int height, float speed)
     {
         this._texture = texture;
         this._startTile = startTile;
@@ -34,6 +35,7 @@ public class Enemy
         this._width = width;
         this._height = height;
         this._speed = speed;
+        this._grid = grid;
     }
 
     public void update()
@@ -41,7 +43,21 @@ public class Enemy
         if (_first)
             _first = false; //ignores calculating delta on a first update of the game
         else
-            _x += delta() * _speed;
+        {
+            if (pathContinues()) _x += delta() * _speed; //if path continues then move forward
+        }
+    }
+
+    private boolean pathContinues()
+    {
+        boolean answer = true;
+
+        Tile currentTile = _grid.getTile((int) (_x / 64), (int) (_y / 64)); // (int) cast removes decimals; /64 takes us to an actual tile
+        Tile nextTile = _grid.getTile((int) (_x / 64) + 1, (int) (_y / 64)); //one tile to the right
+
+        if (currentTile.getType() != nextTile.getType()) answer = false;
+
+        return answer;
     }
 
     /**
@@ -140,6 +156,11 @@ public class Enemy
     public void setFirst(boolean first)
     {
         this._first = first;
+    }
+
+    public TileGrid getTileGrid()
+    {
+        return _grid;
     }
 
 }
