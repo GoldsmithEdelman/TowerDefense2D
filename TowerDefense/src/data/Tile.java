@@ -41,6 +41,11 @@ public class Tile
         return _x;
     }
 
+    public int getXTile()
+    {
+        return (int) _x / 64;
+    }
+
     public void set_x(float x)
     {
         this._x = x;
@@ -49,6 +54,11 @@ public class Tile
     public float getY()
     {
         return _y;
+    }
+
+    public int getYTile()
+    {
+        return (int) _y / 64;
     }
 
     public void setY(float y)

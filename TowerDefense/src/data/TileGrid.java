@@ -95,9 +95,9 @@ public class TileGrid
      * @return
      */
 
-    public Tile getTile(int x, int y)
+    public Tile getTile(int xTile, int yTile)
     {
-        return _map[x][y];
+        return _map[xTile][yTile];
     }
 
     public void draw()
@@ -106,10 +106,12 @@ public class TileGrid
         {
             for (int j = 0; j < _map[i].length; j++)
             {
-                Tile dummyTile = _map[i][j];
-                drawRectangleTexture(dummyTile.getTexture(), dummyTile.getX(),
-                        dummyTile.getY(), dummyTile.getWidth(),
-                        dummyTile.getHeight());
+                // to be deleted
+                //                Tile dummyTile = _map[i][j];
+                //                drawRectangleTexture(dummyTile.getTexture(), dummyTile.getX(),
+                //                        dummyTile.getY(), dummyTile.getWidth(),
+                //                        dummyTile.getHeight());
+                _map[i][j].draw();
             }
         }
     }
