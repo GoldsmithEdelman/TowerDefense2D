@@ -13,6 +13,8 @@ import static helpers.Artist.*;
 public class TileGrid
 {
     public Tile[][] _map;
+    private int _tilesWidth;
+    private int _tilesHeight;
 
     /**
      * Default constructor for a grass-grid
@@ -38,7 +40,9 @@ public class TileGrid
 
     public TileGrid(int[][] newMap)
     {
-        _map = new Tile[20][15];
+        this._tilesWidth = newMap[0].length;
+        this._tilesHeight = newMap.length;
+        _map = new Tile[_tilesWidth][_tilesHeight];
         for (int i = 0; i < _map.length; i++)
         {
             for (int j = 0; j < _map[i].length; j++)
@@ -90,6 +94,8 @@ public class TileGrid
      * 
      * Returns a type of a specific tile. Allows to dynamically access the map
      * 
+     * if by the edges returns a null tile
+     * 
      * @param x
      * @param y
      * @return
@@ -97,7 +103,11 @@ public class TileGrid
 
     public Tile getTile(int xTile, int yTile)
     {
-        return _map[xTile][yTile];
+        if (xTile < _tilesWidth && yTile < _tilesHeight && xTile > -1
+                && yTile > -1)
+            return _map[xTile][yTile];
+        else
+            return new Tile(0, 0, 0, 0, TileType.NULL);
     }
 
     public void draw()
@@ -115,4 +125,37 @@ public class TileGrid
             }
         }
     }
+
+    /**
+     * @return the _tilesWidth
+     */
+    public int getTilesWidth()
+    {
+        return _tilesWidth;
+    }
+
+    /**
+     * @param tilesWidth the tilesWidth to set
+     */
+    public void setTilesWidth(int tilesWidth)
+    {
+        this._tilesWidth = tilesWidth;
+    }
+
+    /**
+     * @return the _tilesHeight
+     */
+    public int getTilesHeight()
+    {
+        return _tilesHeight;
+    }
+
+    /**
+     * @param tilesHeight the tilesHeight to set
+     */
+    public void setTilesHeight(int tilesHeight)
+    {
+        this._tilesHeight = tilesHeight;
+    }
+
 }

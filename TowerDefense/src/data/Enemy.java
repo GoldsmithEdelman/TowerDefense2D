@@ -61,7 +61,10 @@ public class Enemy
             //            if (pathContinues()) _x += delta() * _speed; //if path continues then move forward
             if (checkpointReached())
             {
-                _currentCheckpoint++; //if check point reached move to the next one
+                if (_currentCheckpoint + 1 == _checkpoints.size())
+                    System.out.println("End of maze");
+                else
+                    _currentCheckpoint++; //if check point reached move to the next one
             }
             else
             {
@@ -70,11 +73,11 @@ public class Enemy
                 _y += delta() * _checkpoints.get(_currentCheckpoint)
                     .getY() * _speed;
             }
-            // to be deleted
-            //
-            //            _x += delta() * _directions[0] * _speed;
-            //            _y += delta() * _directions[1] * _speed;
         }
+        // to be deleted
+        //
+        //            _x += delta() * _directions[0] * _speed;
+        //            _y += delta() * _directions[1] * _speed;
     }
 
     private boolean checkpointReached()
@@ -107,7 +110,7 @@ public class Enemy
             int[] currentDirection = findNextDirection(_checkpoints.get(counter)
                 .getTile());
             // check if a next direction/checkpoint exists, end after 20 checkpoints (arbitrary) 
-            if (currentDirection[0] == 2)
+            if (currentDirection[0] == 2 || counter == 20)
             {
                 carryon = false;
             }
@@ -132,16 +135,20 @@ public class Enemy
         // keep going in the same direction if the tiles are the same type 
         while (!found)
         {
-            if (start.getType() != _grid
-                .getTile(start.getXTile() + _directions[0] * counter,
-                        start.getYTile() + _directions[1])
-                .getType())
+            if (start.getXTile()
+                    + _directions[0] * counter == _grid.getTilesWidth()
+                    || start.getYTile() + _directions[1] * counter == _grid
+                        .getTilesHeight()
+                    || start.getType() != _grid
+                        .getTile(start.getXTile() + _directions[0] * counter,
+                                start.getYTile() + _directions[1] * counter)
+                        .getType())
             {
                 found = true; // checkpoint found
                 counter -= 1; // decrement the counter to find tile before new tiletype
                 next = _grid.getTile(
                         start.getXTile() + _directions[0] * counter,
-                        start.getYTile() + _directions[1]);
+                        start.getYTile() + _directions[1] * counter);
             }
             counter++;
         }
@@ -163,22 +170,22 @@ public class Enemy
         Tile downTile = _grid.getTile(start.getXTile(), start.getYTile() + 1);
         Tile leftTile = _grid.getTile(start.getXTile() - 1, start.getYTile());
 
-        if (start.getType() == aboveTile.getType())
+        if (start.getType() == aboveTile.getType() && _directions[1] != 1)
         {
             direction[0] = 0;
             direction[1] = -1;
         }
-        else if (start.getType() == rightTile.getType())
+        else if (start.getType() == rightTile.getType() && _directions[0] != -1)
         {
             direction[0] = 1;
             direction[1] = 0;
         }
-        else if (start.getType() == leftTile.getType())
+        else if (start.getType() == leftTile.getType() && _directions[0] != 1)
         {
             direction[0] = -1;
             direction[1] = 0;
         }
-        else if (start.getType() == downTile.getType())
+        else if (start.getType() == downTile.getType() && _directions[1] != -1)
         {
             direction[0] = 0;
             direction[1] = 1;

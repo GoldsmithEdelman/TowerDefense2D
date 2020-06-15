@@ -46,7 +46,7 @@ public class Tile
         return (int) _x / 64;
     }
 
-    public void set_x(float x)
+    public void setX(float x)
     {
         this._x = x;
     }
