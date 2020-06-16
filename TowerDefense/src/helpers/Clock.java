@@ -5,10 +5,10 @@ import org.lwjgl.Sys;
 public class Clock
 {
     private static boolean _pause = false;
-    public static long lastFrame;
-    public static long totalTime;
-    public static float d = 0; //temporary holder for delta
-    public static float multiplier = 1; // for the speed
+    public static long _lastFrame;
+    public static long _totalTime;
+    public static float _d = 0; //temporary holder for delta
+    public static float _multiplier = 1; // for the speed
 
     public static long getTime()
     {
@@ -25,9 +25,12 @@ public class Clock
     public static float getDelta()
     {
         long currentTime = getTime();
-        int delta = (int) (currentTime - lastFrame);
-        lastFrame = getTime();
-        return delta * 0.01f;
+        int delta = (int) (currentTime - _lastFrame);
+        _lastFrame = getTime();
+        if (delta * 0.001f > 0.05f) return 0.05f; //fix for the enemies movement when the window moves
+        //         to be deleted
+        //         System.out.println(delta * 0.0 1f);
+        return delta * 0.001f;
     }
 
     public static float delta()
@@ -35,34 +38,34 @@ public class Clock
         if (_pause)
             return 0;
         else
-            return d * multiplier;
+            return _d * _multiplier;
     }
 
     public static float totalTime()
     {
-        return totalTime;
+        return _totalTime;
     }
 
     public static float multiplier()
     {
-        return multiplier;
+        return _multiplier;
     }
 
     public static void update()
     {
-        d = getDelta();
-        totalTime += d;
+        _d = getDelta();
+        _totalTime += _d;
     }
 
     public static void changeMultiplier(int change)
     {
-        if (multiplier + change < -1 && multiplier + change > 7)
+        if (_multiplier + change < -1 && _multiplier + change > 7)
         {
 
         }
         else
         {
-            multiplier += change;
+            _multiplier += change;
         }
     }
 

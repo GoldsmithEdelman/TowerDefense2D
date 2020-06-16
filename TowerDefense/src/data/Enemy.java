@@ -9,7 +9,7 @@ import org.newdawn.slick.opengl.Texture;
 
 /**
  * 
- * Getting enemies on the screen
+ * Getting enemies on the screen 
  * @author 
  *
  */
@@ -26,6 +26,7 @@ public class Enemy
     private Tile _startTile;
     private TileGrid _grid;
     private boolean _first = true; //temporary fix for clock settings
+    private boolean _alive = true;
 
     private ArrayList<CheckPoint> _checkpoints;
     private int[] _directions;
@@ -62,7 +63,7 @@ public class Enemy
             if (checkpointReached())
             {
                 if (_currentCheckpoint + 1 == _checkpoints.size())
-                    System.out.println("End of maze");
+                    death();
                 else
                     _currentCheckpoint++; //if check point reached move to the next one
             }
@@ -213,6 +214,11 @@ public class Enemy
     //        return answer;
     //    }
 
+    private void death()
+    {
+        _alive = false;
+    }
+
     /**
      * show the stuff on the screen
      */
@@ -314,6 +320,11 @@ public class Enemy
     public TileGrid getTileGrid()
     {
         return _grid;
+    }
+
+    public boolean isAlive()
+    {
+        return _alive;
     }
 
 }

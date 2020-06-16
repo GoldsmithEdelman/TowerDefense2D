@@ -31,15 +31,23 @@ public class StartUp
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-        TileGrid grid = new TileGrid(map);
+        Game game = new Game(map);
+
+        // to be deleted
+        //        TileGrid grid = new TileGrid(map);
+
         // to be deleted 
         //        grid.setTile(3, 4, TileType.Dirt); //test change Grass to Dirt
         //        grid.setTile(3, 5, grid.getTile(3, 4)
         //            .getType()); //test setter with getter, change one below Grass to Dirt
-        Enemy enemyTest = new Enemy(quickLoadPngTexture("enemy"),
-                grid.getTile(8, 8), grid, 64, 64, 10);
-        Wave waveTest = new Wave(20, enemyTest);
-        Player playerTest = new Player(grid);
+
+        // to be deleted
+        //        Enemy enemyTest = new Enemy(quickLoadPngTexture("enemy"),
+        //                grid.getTile(8, 8), grid, 64, 64, 10);
+        //        Wave waveTest = new Wave(20, enemyTest);
+        //        Player playerTest = new Player(grid);
+        //        TowerCannon towerTest = new TowerCannon(
+        //                quickLoadPngTexture("cannonbase"), grid.getTile(8, 7), 20);
 
         // to be deleted        
         //        Tile tile = new Tile(0, 0, 64, 64, TileType.Grass); // makes an actual tile
@@ -114,11 +122,15 @@ public class StartUp
             // to be deleted
             //            enemyTest.update();
 
-            grid.draw();
-            waveTest.update();
-            playerTest.update();
+            // to be deleted
+            //            grid.draw();
+            //            waveTest.update();
+            //            playerTest.update();
+            //            towerTest.update();
             // to be deleted
             //            enemyTest.draw();
+
+            game.update();
 
             Display.update();
             Display.sync(60);

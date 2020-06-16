@@ -56,6 +56,26 @@ public class Artist
         glLoadIdentity(); // replaces the current matrix with the identity matrix. prevents screen popping and other strange screen behaviors. insert before glEnd() to check why it is important 
     }
 
+    public static void drawRectangleRotatedTexture(Texture texture, float x,
+            float y, float width, float height, float angle)
+    {
+        texture.bind(); // binding texture to openGl. commands that draw to screen will be modifying that texture, until new texture is binded.
+        glTranslatef(x + width / 2, y + height / 2, 0); // z := 0 -> cause the game is 2D; uses local coordinates instead of global (0,0 in global is top left of the screen)
+        glRotatef(angle, 0, 0, 1);
+        glTranslatef(-width / 2, -height / 2, 0); // translate back to x and y
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); // top left corner of a texture (local coordinates)
+        glVertex2f(0, 0);
+        glTexCoord2f(1, 0); // top right corner of the texture (local coordinates)
+        glVertex2f(width, 0);
+        glTexCoord2f(1, 1); // bottom right corner of the texture (local coordinates)
+        glVertex2f(width, height);
+        glTexCoord2f(0, 1); // bottom left corner of the texture (local coordinates)
+        glVertex2f(0, height);
+        glEnd();
+        glLoadIdentity(); // replaces the current matrix with the identity matrix. prevents screen popping and other strange screen behaviors. insert before glEnd() to check why it is important 
+    }
+
     /**
      * 
      * Loads textures
