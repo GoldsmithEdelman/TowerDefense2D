@@ -15,8 +15,8 @@ public class Game
     public Game(int[][] map)
     {
         _grid = new TileGrid(map);
-        _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy"),
-                _grid.getTile(8, 8), _grid, 64, 64, 70), 2, 2);
+        _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
+                _grid.getTile(0, 1), _grid, 64, 64, 70), 2, 2);
         _player = new Player(_grid, _waveManager);
         //        to be deleted
         //        tower = new TowerCannon(quickLoadPngTexture("cannonbase"),
