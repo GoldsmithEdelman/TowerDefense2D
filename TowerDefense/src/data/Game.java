@@ -7,6 +7,7 @@ public class Game
     private TileGrid _grid;
     private Player _player;
     private WaveManager _waveManager;
+    public static final int TILE_SIZE = 64;
 
     // to be deleted
     //temporary for testing

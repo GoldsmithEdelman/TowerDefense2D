@@ -3,6 +3,8 @@ package data;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import helpers.Clock;
+
 import static helpers.Artist.*;
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public class Player
     private int _index;
     private WaveManager _waveManager;
     private ArrayList<TowerCannon> _towerList;
+    private boolean _leftMouseButtonDown = false;
 
     public Player(TileGrid grid, WaveManager waveManager)
     {
@@ -50,27 +53,40 @@ public class Player
         {
             tower.update();
         }
+        
+        
+        
 
         // mouse input
-        if (Mouse.isButtonDown(0))
+        if (Mouse.isButtonDown(0) && !_leftMouseButtonDown)
         {
-            setTile();
+        	_towerList.add(new TowerCannon(
+                    quickLoadPngTexture("cannonbase"), _grid.getTile(Mouse.getX() / 64, (HEIGHT - Mouse.getY()-1)/64),
+                    10, _waveManager.getCurrentWave()
+                        .getEnemies()));
+            //setTile();
         }
+        
+        _leftMouseButtonDown = Mouse.isButtonDown(0);
+        
+        
         // keyboard input
         while (Keyboard.next())
         {
             if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT
                     && Keyboard.getEventKeyState()) //Keyboard.getEventKeyState() gives one per press
             {
-                moveIndex();
+                Clock.changeMultiplier(0.2f);
+            }
+            if (Keyboard.getEventKey() == Keyboard.KEY_LEFT
+                    && Keyboard.getEventKeyState()) //Keyboard.getEventKeyState() gives one per press
+            {
+            	Clock.changeMultiplier(-0.2f);
             }
             if (Keyboard.getEventKey() == Keyboard.KEY_T
                     && Keyboard.getEventKeyState())
             {
-                _towerList.add(new TowerCannon(
-                        quickLoadPngTexture("cannonbase"), _grid.getTile(8, 7),
-                        10, _waveManager.getCurrentWave()
-                            .getEnemies()));
+            	setTile();
             }
         }
     }
