@@ -35,7 +35,7 @@ public class TowerCannon
         this._width = (int) startTile.getWidth();
         this._height = (int) startTile.getHeight();
         this._damage = damage;
-        this._firingSpeed = 3;
+        this._firingSpeed = (float) 3;
         this._timeSinceLastShot = 0;
         this._projectiles = new ArrayList<Projectile>();
         this._enemies = enemies;
@@ -56,8 +56,8 @@ public class TowerCannon
 
     private void shoot()
     {
-        _projectiles.add(new Projectile(quickLoadPngTexture("bullet"), _x + 32,
-                _y + 32, 50, 10));
+        _projectiles.add(new Projectile(quickLoadPngTexture("bullet"),_target, _x + Game.TILE_SIZE/2 - Game.TILE_SIZE/4,
+                _y + Game.TILE_SIZE/2 - Game.TILE_SIZE/4, 900, 10));
         _timeSinceLastShot = 0;
 
     }
