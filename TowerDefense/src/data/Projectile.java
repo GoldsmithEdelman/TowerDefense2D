@@ -11,13 +11,18 @@ public class Projectile
     private float _y;
     private float _yVel;
     private float _xVel;
+    private float _width;
+    private float _height;
     private float _speed;
     private int _damage;
     private Enemy _target;
+    private boolean _alive;
 
-    public Projectile(Texture texture, Enemy target, float x, float y, float speed,
+    public Projectile(Texture texture, Enemy target, float x, float y, float width, float height, float speed,
             int damage)
     {
+    	this._height = height;
+    	this._width = width;
         this._texture = texture;
         this._x = x;
         this._y = y;
@@ -26,6 +31,7 @@ public class Projectile
         this._target = target;
         this._xVel = 0f;
         this._yVel = 0f;
+        this._alive = true;
         getdirection();
     }
     
@@ -49,9 +55,18 @@ public class Projectile
     
     public void update()
     {
-        _x += _xVel * delta() * _speed;
-        _y += _yVel * delta() * _speed;
-        draw();
+    	if(_alive) {
+    		
+    		if(CheckCollision(_x, _y, _width, _height, _target.getX(), _target.getY(), _target.getWidth(), _target.getHeight()) 
+    				&& _target.isAlive()){
+    			_target.takedamage(_damage);
+    			_alive = false;
+    		}
+            _x += _xVel * delta() * _speed;
+            _y += _yVel * delta() * _speed;
+            draw();
+            
+    	}
     }
 
     public void draw()

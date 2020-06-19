@@ -109,6 +109,15 @@ public class TileGrid
         else
             return new Tile(0, 0, 0, 0, TileType.NULL);
     }
+    
+    public TileType getTileType(int xTile, int yTile)
+    {
+        if (xTile < _tilesWidth && yTile < _tilesHeight && xTile > -1
+                && yTile > -1)
+            return _map[xTile][yTile].getType();
+        else
+            return new Tile(0, 0, 0, 0, TileType.NULL).getType();
+    }
 
     public void draw()
     {

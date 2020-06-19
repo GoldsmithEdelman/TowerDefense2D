@@ -53,7 +53,7 @@ public class Wave
     {
         _enemyList
             .add(new Enemy(_enemyType.getTexture(), _enemyType.getStartTile(),
-                    _enemyType.getTileGrid(), 64, 64, _enemyType.getSpeed()));
+                    _enemyType.getTileGrid(), 64, 64, _enemyType.getSpeed(), _enemyType.getHealth()));
     }
 
     public boolean isWaveCompleted()
