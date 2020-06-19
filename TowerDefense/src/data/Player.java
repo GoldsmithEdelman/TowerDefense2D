@@ -18,17 +18,19 @@ public class Player
     private ArrayList<TowerCannon> _towerList;
     private boolean _leftMouseButtonDown = false;
     private int _playerhealth;
+    private Menu _menu;
 
-    public Player(TileGrid grid, WaveManager waveManager,int health)
+    public Player(TileGrid grid, WaveManager waveManager,int health, Menu menu)
     {
     	_playerhealth = health;
         this._grid = grid;
-        this._types = new TileType[3];
+        this._types = new TileType[4];
         this._types[0] = TileType.Dirt;
         this._types[1] = TileType.Grass;
         this._types[2] = TileType.Water;
+        this._types[3] = TileType.Menu;
         this._index = 0;
-
+        this._menu = menu;
         this._waveManager = waveManager;
         this._towerList = new ArrayList<TowerCannon>();
 
@@ -101,10 +103,7 @@ public class Player
         	int y = (int) Math.floor((HEIGHT - Mouse.getY() - 1))/64;
         	if(_grid.getTileType(x, y).equals(TileType.Grass)) {
         		if(!isTaken( x*64, y*64)) {
-                	_towerList.add(new TowerCannon(
-                            quickLoadPngTexture("cannonbase"), _grid.getTile(Mouse.getX() / 64, (HEIGHT - Mouse.getY()-1)/64),10,
-                            1000, _waveManager.getCurrentWave()
-                                .getEnemies()));
+        			addCannon();
         		}
         	}
 
@@ -132,6 +131,19 @@ public class Player
             {
             	setTile();
             }
+            
+            //TowerCannon
+            if(Keyboard.getEventKey() == Keyboard.KEY_1) {
+            	_menu.setPointer(1);
+            }
+            //???Tower
+            if(Keyboard.getEventKey() == Keyboard.KEY_2) {
+            	_menu.setPointer(2);
+            }
+            //DeleteTower
+            if(Keyboard.getEventKey() == Keyboard.KEY_0) {
+            	_menu.setPointer(10);
+            }
         }
     }
 
@@ -142,6 +154,13 @@ public class Player
         {
             _index = 0;
         }
+    }
+    
+    private void addCannon() {
+    	_towerList.add(new TowerCannon(
+                quickLoadPngTexture("cannonbase"), _grid.getTile(Mouse.getX() / 64, (HEIGHT - Mouse.getY()-1)/64),10,
+                1000, _waveManager.getCurrentWave()
+                    .getEnemies()));
     }
 
 }

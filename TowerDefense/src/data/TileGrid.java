@@ -70,7 +70,11 @@ public class TileGrid
                     break;
                 case 2:
                     _map[i][j] = new Tile(i * 64, j * 64, 64, 64,
-                            TileType.Dirt);
+                            TileType.Dirt); 
+                    break;
+                case 3:
+                    _map[i][j] = new Tile(i * 64, j * 64, 64, 64,
+                            TileType.Menu);
                 }
             }
         }
