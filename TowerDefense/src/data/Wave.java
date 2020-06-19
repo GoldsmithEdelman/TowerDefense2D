@@ -12,9 +12,11 @@ public class Wave
     private ArrayList<Enemy> _enemyList;
     private int _enemiesPerWave;
     private boolean _waveCompleted;
+    private int _playerlife;
 
     public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave)
     {
+    	this._playerlife = 0;
         this._enemyType = enemyType;
         this._spawnTime = spawnTime;
         this._enemiesPerWave = enemiesPerWave;
@@ -44,6 +46,9 @@ public class Wave
                 enemiesDead = false;
                 enemy.update();
                 enemy.draw();
+                if(enemy.getPlayerDMG()) {
+                	_playerlife++;
+                }
             }
         }
         if (enemiesDead) _waveCompleted = true;
@@ -64,5 +69,11 @@ public class Wave
     public ArrayList<Enemy> getEnemies()
     {
         return _enemyList;
+    }
+    
+    public int getPlayerlife() {
+    	int x = _playerlife;
+    	_playerlife = 0;
+    	return x;
     }
 }
