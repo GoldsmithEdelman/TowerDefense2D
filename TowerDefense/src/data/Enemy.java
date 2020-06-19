@@ -32,7 +32,7 @@ public class Enemy
     private int[] _directions;
 
     public Enemy(Texture texture, Tile startTile, TileGrid grid, int width,
-            int height, float speed)
+            int height, float speed, int health)
     {
         this._texture = texture;
         this._startTile = startTile;
@@ -42,7 +42,7 @@ public class Enemy
         this._height = height;
         this._speed = speed;
         this._grid = grid;
-
+        this._health = health;
         this._checkpoints = new ArrayList<CheckPoint>();
         this._directions = new int[2];
         this._directions[0] = 0; // x direction
@@ -195,7 +195,6 @@ public class Enemy
         {
             direction[0] = 2;
             direction[1] = 2;
-            System.out.println("No direction found"); // for debugging
         }
 
         return direction;
@@ -326,5 +325,11 @@ public class Enemy
     {
         return _alive;
     }
-
+    
+    public void takedamage(int amount) {
+    	_health = _health - amount;
+    	if (_health<=0) {
+    		death();
+    	}
+    }
 }

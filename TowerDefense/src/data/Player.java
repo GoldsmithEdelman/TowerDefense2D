@@ -43,6 +43,17 @@ public class Player
                 _types[_index]);
     }
 
+    
+    public boolean isTaken(float x, float y) {
+    	for (int i = 0; i < _towerList.size(); i++) {
+    		TowerCannon tower = _towerList.get(i);
+			if (tower.getX() == x && tower.getY() == y) {
+				return true;
+			}
+		}
+    	return false;
+    }
+
     /**
      * updates on click or press 
      */
@@ -52,6 +63,7 @@ public class Player
         for (TowerCannon tower : _towerList)
         {
             tower.update();
+            tower.updateEnemyLists(_waveManager.getCurrentWave().getEnemies());
         }
         
         
@@ -60,10 +72,17 @@ public class Player
         // mouse input
         if (Mouse.isButtonDown(0) && !_leftMouseButtonDown)
         {
-        	_towerList.add(new TowerCannon(
-                    quickLoadPngTexture("cannonbase"), _grid.getTile(Mouse.getX() / 64, (HEIGHT - Mouse.getY()-1)/64),
-                    10, _waveManager.getCurrentWave()
-                        .getEnemies()));
+        	int x = (int) Math.floor(Mouse.getX())/64;
+        	int y = (int) Math.floor((HEIGHT - Mouse.getY() - 1))/64;
+        	if(_grid.getTileType(x, y).equals(TileType.Grass)) {
+        		if(!isTaken( x*64, y*64)) {
+                	_towerList.add(new TowerCannon(
+                            quickLoadPngTexture("cannonbase"), _grid.getTile(Mouse.getX() / 64, (HEIGHT - Mouse.getY()-1)/64),10,
+                            1000, _waveManager.getCurrentWave()
+                                .getEnemies()));
+        		}
+        	}
+
             //setTile();
         }
         
