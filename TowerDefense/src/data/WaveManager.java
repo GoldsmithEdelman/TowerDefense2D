@@ -47,4 +47,8 @@ public class WaveManager
     {
         return _currentWave;
     }
+    
+    public String getWaveNumber() {
+    	return ""+_waveNumber;
+    }
 }

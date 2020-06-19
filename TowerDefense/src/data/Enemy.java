@@ -27,6 +27,7 @@ public class Enemy
     private TileGrid _grid;
     private boolean _first = true; //temporary fix for clock settings
     private boolean _alive = true;
+    private boolean _playerdmg = false;
 
     private ArrayList<CheckPoint> _checkpoints;
     private int[] _directions;
@@ -62,8 +63,12 @@ public class Enemy
             //            if (pathContinues()) _x += delta() * _speed; //if path continues then move forward
             if (checkpointReached())
             {
-                if (_currentCheckpoint + 1 == _checkpoints.size())
+                if (_currentCheckpoint + 1 == _checkpoints.size()) {
+                	
+                
                     death();
+                    _playerdmg = true;
+                }
                 else
                     _currentCheckpoint++; //if check point reached move to the next one
             }
@@ -331,5 +336,9 @@ public class Enemy
     	if (_health<=0) {
     		death();
     	}
+    }
+    
+    public boolean getPlayerDMG() {
+    	return _playerdmg;
     }
 }

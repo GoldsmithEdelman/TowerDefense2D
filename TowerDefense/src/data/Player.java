@@ -17,9 +17,11 @@ public class Player
     private WaveManager _waveManager;
     private ArrayList<TowerCannon> _towerList;
     private boolean _leftMouseButtonDown = false;
+    private int _playerhealth;
 
-    public Player(TileGrid grid, WaveManager waveManager)
+    public Player(TileGrid grid, WaveManager waveManager,int health)
     {
+    	_playerhealth = health;
         this._grid = grid;
         this._types = new TileType[3];
         this._types[0] = TileType.Dirt;
@@ -31,8 +33,31 @@ public class Player
         this._towerList = new ArrayList<TowerCannon>();
 
     }
+    
+    
+    
+    
+    
 
-    /**
+    public int getPlayerhealth() {
+		return _playerhealth;
+	}
+
+
+
+
+
+
+	public void setPlayerhealth() {
+		this._playerhealth = _playerhealth -1;
+	}
+
+
+
+
+
+
+	/**
      * input from the mouse
      */
 
@@ -67,7 +92,7 @@ public class Player
         }
         
         
-        
+        _playerhealth-= _waveManager.getCurrentWave().getPlayerlife();
 
         // mouse input
         if (Mouse.isButtonDown(0) && !_leftMouseButtonDown)
