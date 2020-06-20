@@ -17,22 +17,26 @@ public class Menu {
 	public Menu() {
 		_texture = quickLoadPngTexture("cannonbase");
 		_x = WIDTH - 64;
-		_pointer = 0;
+		_pointer = 1;
     	Font awtFont = new Font("Times New Roman", Font.BOLD,24);
     	_font = new TrueTypeFont(awtFont, false); 
 	}
 	
 	public void setPointer(int i) {
+		_pointer=i;
 		switch(i) {
 		case 1: 
 			_texture = quickLoadPngTexture("cannonbase");
 			_kosten = 1000;
 			break;
 		case 2: 
-			_texture = quickLoadPngTexture("enemy");
+			_texture = quickLoadPngTexture("Tower2");
 			break;
 		}
 		
+	}
+	public int getPointer() {
+		return _pointer;
 	}
 	
 	public void update() {

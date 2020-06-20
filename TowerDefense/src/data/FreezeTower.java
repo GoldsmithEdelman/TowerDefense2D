@@ -1,15 +1,16 @@
 package data;
 
-import static helpers.Artist.*;
-import static helpers.Clock.*;
+import static helpers.Artist.drawRectangleRotatedTexture;
+import static helpers.Artist.drawRectangleTexture;
+import static helpers.Artist.quickLoadPngTexture;
+import static helpers.Clock.delta;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
 
-public class TowerCannon implements TowerBase
-{
+public class FreezeTower extends TowerCannon {
+
 	private float _range;
     private float _x;
     private float _y;
@@ -21,18 +22,18 @@ public class TowerCannon implements TowerBase
     private Texture _baseTexture;
     private Texture _cannonTexture;
     private Tile _startTile;
-    private ArrayList<Projectile> _projectiles;
+    private ArrayList<Projectile2> _projectiles;
     private ArrayList<Enemy> _enemies;
     private Enemy _target;
     private float _angle;
 	private boolean _targeted;
-
-    public TowerCannon(Texture baseTexture, Tile startTile, int damage, int range,
-            ArrayList<Enemy> enemies)
-    {
+	
+	
+	public FreezeTower(Texture baseTexture, Tile startTile, int damage, int range, ArrayList<Enemy> enemies) {
+		super(baseTexture, startTile, damage, range, enemies);
     	this._range = range;
         this._baseTexture = baseTexture;
-        this._cannonTexture = quickLoadPngTexture("cannongun");
+        this._cannonTexture = quickLoadPngTexture("Towergun");
         this._startTile = startTile;
         this._x = startTile.getX();
         this._y = startTile.getY();
@@ -41,13 +42,13 @@ public class TowerCannon implements TowerBase
         this._damage = damage;
         this._firingSpeed = (float) 3;
         this._timeSinceLastShot = 0;
-        this._projectiles = new ArrayList<Projectile>();
+        this._projectiles = new ArrayList<Projectile2>();
         this._enemies = enemies;
         this._target = getTarget();
         this._angle = getAngle();
         this._targeted = false;
-    }
-
+	}
+	
     private Enemy getTarget()
     {
         Enemy close = null;
@@ -91,8 +92,8 @@ public class TowerCannon implements TowerBase
     private void shoot()
     {
     	if(_target != null) {
-        _projectiles.add(new Projectile(quickLoadPngTexture("bullet"),_target, _x + Game.TILE_SIZE/2 - Game.TILE_SIZE/4,
-                _y + Game.TILE_SIZE/2 - Game.TILE_SIZE/4,32,32, 900, 10));
+        _projectiles.add(new Projectile2(quickLoadPngTexture("Ball"),_target, _x + Game.TILE_SIZE/2 - Game.TILE_SIZE/4,
+                _y + Game.TILE_SIZE/2 - Game.TILE_SIZE/4,32,32, 900, _damage));
         _timeSinceLastShot = 0;
     	}
     }
@@ -102,7 +103,7 @@ public class TowerCannon implements TowerBase
     }
     
     public void update()
-    {
+    {	_target = getTarget();
     	if (!_targeted) {
     		_target = getTarget();
     	}
@@ -113,7 +114,7 @@ public class TowerCannon implements TowerBase
     	}
         _timeSinceLastShot += delta();
         if (_timeSinceLastShot > _firingSpeed) shoot();
-        for (Projectile projectile : _projectiles)
+        for (Projectile2 projectile : _projectiles)
         {
             projectile.update();
         }
@@ -124,7 +125,7 @@ public class TowerCannon implements TowerBase
     public void draw()
     {
         drawRectangleTexture(_baseTexture, _x, _y, _width, _height);
-        drawRectangleRotatedTexture(_cannonTexture, _x + 32, _y, 10, 50,
+        drawRectangleRotatedTexture(_cannonTexture, _x + 28, _y+18, 8, 25,
                 _angle);
     }
     
@@ -135,4 +136,5 @@ public class TowerCannon implements TowerBase
     public float getY() {
     	return _y;
     }
+
 }
