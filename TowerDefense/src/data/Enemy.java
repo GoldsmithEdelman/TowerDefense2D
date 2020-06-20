@@ -28,13 +28,17 @@ public class Enemy
     private boolean _first = true; //temporary fix for clock settings
     private boolean _alive = true;
     private boolean _playerdmg = false;
+    private Menu _menu;
+    private int _reward;
 
     private ArrayList<CheckPoint> _checkpoints;
     private int[] _directions;
 
-    public Enemy(Texture texture, Tile startTile, TileGrid grid, int width,
-            int height, float speed, int health)
+    public Enemy(Texture texture, Tile startTile, TileGrid grid, Menu menu,int width,
+            int height, float speed, int health, int reward)
     {
+    	this._reward = reward;
+    	this._menu = menu;
         this._texture = texture;
         this._startTile = startTile;
         this._x = startTile.getX();
@@ -221,6 +225,7 @@ public class Enemy
     private void death()
     {
         _alive = false;
+        _menu.addmoney(_reward);
     }
 
     /**
@@ -340,5 +345,13 @@ public class Enemy
     
     public boolean getPlayerDMG() {
     	return _playerdmg;
+    }
+    
+    public int getreward(){
+    	return _reward;
+    }
+    
+    public Menu getMenu() {
+    	return _menu;
     }
 }

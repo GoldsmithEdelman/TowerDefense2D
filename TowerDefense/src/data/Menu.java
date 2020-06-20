@@ -19,7 +19,9 @@ public class Menu {
 		_x = WIDTH - 64;
 		_pointer = 1;
     	Font awtFont = new Font("Times New Roman", Font.BOLD,24);
-    	_font = new TrueTypeFont(awtFont, false); 
+    	_font = new TrueTypeFont(awtFont, false);
+    	_money  = 1000;
+    	_kosten = 10;
 	}
 	
 	public void setPointer(int i) {
@@ -27,10 +29,11 @@ public class Menu {
 		switch(i) {
 		case 1: 
 			_texture = quickLoadPngTexture("cannonbase");
-			_kosten = 1000;
+			_kosten = 10;
 			break;
 		case 2: 
 			_texture = quickLoadPngTexture("Tower2");
+			_kosten = 100;
 			break;
 		}
 		
@@ -58,5 +61,17 @@ public class Menu {
     	String s = "Kostet: " + kosten ;
     	_font.drawString(1000, 0, s);
     	
+    }
+    
+    public int getmoney() {
+    	return _money;
+    }
+    
+    public void addmoney(int money) {
+    	_money = _money + money;
+    }
+    
+    public void submoney(int money) {
+    	_money = _money - money;    	
     }
 }
