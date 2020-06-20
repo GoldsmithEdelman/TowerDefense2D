@@ -106,10 +106,16 @@ public class Player
         			int t1 = _menu.getPointer();
         			switch(t1) {
         				case 1:
-        					addCannon();
+        					if(_menu.getmoney() >= 10) {
+        						addCannon();
+        						_menu.submoney(10);
+        					}        					
         					break;
         				case 2:
+        					if(_menu.getmoney() >= 100) {
         					addFrezeCannon();
+        					_menu.submoney(100);
+        					}
         			}
         		}
         	}

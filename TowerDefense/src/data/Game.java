@@ -23,7 +23,7 @@ public class Game
     	test = new Menu();
         _grid = new TileGrid(map);
         _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(0, 2), _grid, 64, 64, 200,25), 2, 2);
+                _grid.getTile(0, 2), _grid,test, 64, 64, 200,25,10), 2, 2);
         _player = new Player(_grid, _waveManager,15,test);
     	Font awtFont = new Font("Times New Roman", Font.BOLD,30);
     	 _font = new TrueTypeFont(awtFont, false); 
@@ -41,7 +41,7 @@ public class Game
         _waveManager.update();
         _player.update();
        
-        drawstring(_waveManager.getWaveNumber(),"?",""+_player.getPlayerhealth());
+        drawstring(_waveManager.getWaveNumber(),"?",""+_player.getPlayerhealth() + "       Geld: " + test.getmoney());
         test.update();
 //                  to be deleted
 //                tower.update();
