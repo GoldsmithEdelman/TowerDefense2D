@@ -13,6 +13,7 @@ public class Wave
     private int _enemiesPerWave;
     private boolean _waveCompleted;
     private int _playerlife;
+    private int _ausgleich;
 
     public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave)
     {
@@ -23,14 +24,14 @@ public class Wave
         this._timeSinceLastSpawn = 0;
         this._enemyList = new ArrayList<Enemy>();
         this._waveCompleted = false;
-
+        this._ausgleich = 0;
         spawn();
     }
 
     public void update()
     {
         boolean enemiesDead = true;
-        if (_enemyList.size() < _enemiesPerWave)
+        if (_enemyList.size()+_ausgleich < _enemiesPerWave)
         {
             _timeSinceLastSpawn += delta();
             if (_timeSinceLastSpawn > _spawnTime)
@@ -39,19 +40,24 @@ public class Wave
                 _timeSinceLastSpawn = 0;
             }
         }
-        for (Enemy enemy : _enemyList)
+        for (int i = 0;  _enemyList.size()>i;i++)
         {
-            if (enemy.isAlive())
+            if (_enemyList.get(i).isAlive())
             {
                 enemiesDead = false;
-                enemy.update();
-                enemy.draw();
-                if(enemy.getPlayerDMG()) {
+                _enemyList.get(i).update();
+                _enemyList.get(i).draw();
+                if(_enemyList.get(i).getPlayerDMG()) {
                 	_playerlife++;
                 }
+            } else if (!_enemyList.get(i).isAlive()){
+            	_enemyList.remove(_enemyList.get(i));
+            	_ausgleich++;
             }
         }
-        if (enemiesDead) _waveCompleted = true;
+        if (enemiesDead&&_enemyList.size() == 0) {
+        	_waveCompleted = true;
+        }
     }
 
     private void spawn()

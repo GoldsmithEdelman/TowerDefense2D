@@ -38,6 +38,8 @@ public class WaveManager
     {
         _currentWave = new Wave(_enemyType, _timeBetweenEnemies,
                 _enemiesPerWave);
+        _enemiesPerWave++;
+        _timeBetweenEnemies = _timeBetweenEnemies * 0.9f;
         _waveNumber++;
         // testing
         System.out.println("Wave number " + _waveNumber);
