@@ -37,12 +37,15 @@ public class Game
     {
     	
         // order is important; grid first then towers on top
+    	if(_player.getPlayerhealth()>0 ) {
         _grid.draw();
         _waveManager.update();
         _player.update();
        
         drawstring(_waveManager.getWaveNumber(),"?",""+_player.getPlayerhealth() + "       Geld: " + test.getmoney());
         test.update();
+        }
+    	
 //                  to be deleted
 //                tower.update();
     }

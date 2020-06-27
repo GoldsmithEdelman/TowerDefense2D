@@ -68,7 +68,14 @@ public class Projectile
             
     	}
     }
-
+    
+    public float getX() {
+    	return _x;
+    }
+    
+    public float getY() {
+    	return _y;
+    }
     public void draw()
     {
         drawRectangleTexture(_texture, _x, _y, 32, 32);

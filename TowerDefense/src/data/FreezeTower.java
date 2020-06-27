@@ -114,9 +114,16 @@ public class FreezeTower extends TowerCannon {
     	}
         _timeSinceLastShot += delta();
         if (_timeSinceLastShot > _firingSpeed) shoot();
-        for (Projectile2 projectile : _projectiles)
+        for (int i = 0; _projectiles.size() > i;i++)
         {
-            projectile.update();
+        	
+            float x = _projectiles.get(i).getX();
+            float y = _projectiles.get(i).getX();
+            if(x-_x > _range*3||-(x-_x) > _range*3||y-_y > _range*3||-(y-_y) > _range*3) {
+            	_projectiles.remove(i);
+            } else {
+            	_projectiles.get(i).update();
+            }
         }
         _angle = getAngle();
         draw();
