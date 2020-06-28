@@ -55,7 +55,7 @@ public class Wave
             	_ausgleich++;
             }
         }
-        if (enemiesDead&&_enemyList.size() == 0) {
+        if (enemiesDead&&_enemyList.size() == 0 && (_ausgleich-_enemiesPerWave)==0 ) {
         	_waveCompleted = true;
         }
     }
