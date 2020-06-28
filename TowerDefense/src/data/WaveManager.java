@@ -8,6 +8,7 @@ public class WaveManager
     private int _enemiesPerWave;
     private Enemy _enemyType;
     private Wave _currentWave;
+    private int _maxwave = -10;
 
     public WaveManager(Enemy enemyType, float timeBetweenEnemies,
             int enemiesPerWave)
@@ -22,16 +23,38 @@ public class WaveManager
 
         newWave();
     }
+    
+    public WaveManager(Enemy enemyType, float timeBetweenEnemies,
+            int enemiesPerWave, int maxwave)
+    {
+        this._enemyType = enemyType;
+        this._timeBetweenEnemies = timeBetweenEnemies;
+        this._enemiesPerWave = enemiesPerWave;
+        this._timeSinceLastWave = 0;
+        this._waveNumber = 0;
+        this._maxwave = maxwave;
+        this._currentWave = null;
+
+        newWave();
+    }
 
     public void update()
     {
         //        to be deleted
         //        if (_currentWave != null) _currentWave.update();
-        if (!_currentWave.isWaveCompleted())
-            _currentWave.update();
-        else
+    	if (_maxwave == -10 || _maxwave>0) {
+            if (!_currentWave.isWaveCompleted()) {
+                _currentWave.update();
+            }
+            else {
+            	newWave();
+            	if(!(_maxwave==-10))
+            	_maxwave--;
+            }
+    	}
+    
             // System.out.println("Wave is over");
-            newWave();
+            
     }
 
     public void newWave()
@@ -52,5 +75,9 @@ public class WaveManager
     
     public String getWaveNumber() {
     	return ""+_waveNumber;
+    }
+    
+    public int getWave() {
+    	return _maxwave;
     }
 }
