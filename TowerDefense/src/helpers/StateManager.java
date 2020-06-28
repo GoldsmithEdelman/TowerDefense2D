@@ -16,6 +16,7 @@ public class StateManager
     public static GameState _gameState = GameState.MAINMENU;
     public static MainMenu _mainMenu;
     public static Game _game;
+    private static boolean run = true;
     //public static Editor _editor;
 
     static int[][] map = {
@@ -51,6 +52,10 @@ public class StateManager
                 _game = new Game(map);
             }
             _game.update();
+            if(!_game.getrun()) {
+            	run = _game.getrun();
+            	_game = null;
+            }
             break;
         case EDITOR:
             break;
@@ -61,6 +66,14 @@ public class StateManager
     public static void setState(GameState state)
     {
         _gameState = state;
+    }
+    
+    public static boolean getrun() {
+    	return run;
+    }
+    
+    public static void run() {
+    	run = true;
     }
 
 }

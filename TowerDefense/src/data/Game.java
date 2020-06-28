@@ -14,6 +14,7 @@ public class Game
     public static final int TILE_SIZE = 64;
     private Menu test;
     private TrueTypeFont _font;
+    private boolean run = true;
     // to be deleted
     //temporary for testing
     //    TowerCannon tower;
@@ -44,6 +45,8 @@ public class Game
        
         drawstring(_waveManager.getWaveNumber(),"?",""+_player.getPlayerhealth() + "       Geld: " + test.getmoney());
         test.update();
+        } else {
+        	run = false;
         }
     	
 //                  to be deleted
@@ -55,6 +58,10 @@ public class Game
     	String s = "Welle: " + aktuelleWave+"/"+maxWave+"    Leben: "+ aktuellesleben ;
     	_font.drawString(0, 0, s);
     	
+    }
+    
+    public boolean getrun() {
+    	return run;
     }
     
 }

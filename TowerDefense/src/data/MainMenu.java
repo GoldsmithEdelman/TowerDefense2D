@@ -89,12 +89,16 @@ public class MainMenu extends JFrame
             this.dispose();
             beginSession();
             StateManager.setState(GameState.GAME);
+            StateManager.run();
             while (!Display.isCloseRequested())
             {
 
                 Clock.update(); //always update the clock before drawing enemies
                 StateManager.update();
-
+                if(StateManager.getrun() == false) {
+                	this.setVisible(true);
+                	break;
+                }
                 Display.update();
                 Display.sync(60);
             }
