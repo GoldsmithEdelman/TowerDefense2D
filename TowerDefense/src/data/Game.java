@@ -3,6 +3,7 @@ package data;
 import static helpers.Artist.quickLoadPngTexture;
 
 import java.awt.Font;
+import java.util.ArrayList;
 
 import org.newdawn.slick.TrueTypeFont;
 
@@ -61,6 +62,24 @@ public class Game
                 _grid.getTile(x, y), _grid,test, 64, 64, 200,25,10), 2, 2,maxwaves);
         _waveManager2 = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
                 _grid.getTile(x2, y2), _grid,test, 64, 64, 200,25,10), 2, 2,maxwaves);
+        _player = new Player(_grid, _waveManager,15,test);
+    	Font awtFont = new Font("Times New Roman", Font.BOLD,30);
+    	 _font = new TrueTypeFont(awtFont, false); 
+        //        to be deleted
+        //        tower = new TowerCannon(quickLoadPngTexture("cannonbase"),
+        //                _grid.getTile(8, 7), 20);
+
+    }
+    
+    //custom Wave
+    public Game(int[][] map, int [][]wavemap, int x, int y)
+    {
+    	test = new Menu();
+        _grid = new TileGrid(map);
+        ArrayList<Enemy> EnemyTypes = new ArrayList<Enemy>();
+        EnemyTypes.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 100,25,10));
+        EnemyTypes.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 200,25,10));
+        _waveManager = new WaveManager(EnemyTypes, 2, wavemap);
         _player = new Player(_grid, _waveManager,15,test);
     	Font awtFont = new Font("Times New Roman", Font.BOLD,30);
     	 _font = new TrueTypeFont(awtFont, false); 

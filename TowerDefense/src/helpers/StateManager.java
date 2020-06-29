@@ -41,7 +41,7 @@ public class StateManager
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -86,6 +86,12 @@ public class StateManager
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0}};
+    
+    static int[][] customEnemyMap = {
+    		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // map is 20x15
+            {1, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    		{1,0}};
+
 
     public static void update()
     {
@@ -112,7 +118,7 @@ public class StateManager
             break;
             
         case LEVEL1:
-        	gamestart(map1,10, 	0,2);
+        	gamestart(map1,10, 	19,4, customEnemyMap);
         	break;
         	
         case LEVEL2:
@@ -142,6 +148,18 @@ public class StateManager
         if (_game == null)
         {
             _game = new Game(map_,maxwave, x,y,x2,y2);
+        }
+        _game.update();
+        if(!_game.getrun()) {
+        	run = _game.getrun();
+        	_game = null;
+        }
+    }
+    
+    private static void gamestart(int [] [] map_,int maxwave, int x , int y, int [][] wavemap) {
+        if (_game == null)
+        {
+            _game = new Game(map_,wavemap, x,y);
         }
         _game.update();
         if(!_game.getrun()) {
