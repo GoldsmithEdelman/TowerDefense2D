@@ -1,5 +1,6 @@
 package data;
 
+import java.awt.List;
 import java.util.ArrayList;
 
 import static helpers.Clock.*;
@@ -14,6 +15,11 @@ public class Wave
     private boolean _waveCompleted;
     private int _playerlife;
     private int _ausgleich;
+    private ArrayList<Enemy> _enemyTypeList;
+    private int[] _enemyIntList;
+    private int _customPointer;
+    private boolean _customWave = false;
+    
 
     public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave)
     {
@@ -27,11 +33,51 @@ public class Wave
         this._ausgleich = 0;
         spawn();
     }
+    
+    public Wave(ArrayList<Enemy> enemyTypelist, float spawnTime, int[] enemyInt)
+    {
+    	this._playerlife = 0;
+        this._enemyTypeList = enemyTypelist;
+        this._spawnTime = spawnTime;
+        this._enemiesPerWave = 1;
+        this._timeSinceLastSpawn = 0;
+        this._enemyList = new ArrayList<Enemy>();
+        this._waveCompleted = false;
+        this._ausgleich = 0;
+        this._enemyIntList = enemyInt;
+        this._customPointer = 0;
+        this._customWave = true;
+        spawn2();
+    }
+    
+    private void spawn2() {
+    	if(!(_enemyIntList[_customPointer]==0)) {
+    		_enemyType = _enemyTypeList.get(_enemyIntList[_customPointer]-1);
+    		_customPointer++;
+    		_enemiesPerWave++;
+    		spawn();
+    		
+    	} else {
+    		_ausgleich =_enemiesPerWave;
+    		
+    	}
+    }
 
     public void update()
     {
         boolean enemiesDead = true;
-        if (_enemyList.size()+_ausgleich < _enemiesPerWave)
+        if(_customWave) {
+        	if ((_enemyList.size()) < _enemiesPerWave)
+            {
+                _timeSinceLastSpawn += delta();
+                if (_timeSinceLastSpawn > _spawnTime)
+                {
+                    spawn2();
+                    _timeSinceLastSpawn = 0;
+                }
+            }
+        	
+        } else if (_enemyList.size()+_ausgleich < _enemiesPerWave)
         {
             _timeSinceLastSpawn += delta();
             if (_timeSinceLastSpawn > _spawnTime)
@@ -39,6 +85,8 @@ public class Wave
                 spawn();
                 _timeSinceLastSpawn = 0;
             }
+        } else if (_customWave) {
+        	
         }
         for (int i = 0;  _enemyList.size()>i;i++)
         {
@@ -58,6 +106,8 @@ public class Wave
         if (enemiesDead&&_enemyList.size() == 0 && (_ausgleich-_enemiesPerWave)==0 ) {
         	_waveCompleted = true;
         }
+        
+        //System.out.println(""+_enemyList.size()+enemiesDead+(_ausgleich)+"   "+_enemiesPerWave+"     "+_customPointer);
     }
 
     private void spawn()
