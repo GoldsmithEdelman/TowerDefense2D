@@ -3,6 +3,13 @@ package data;
 import static helpers.Artist.quickLoadPngTexture;
 
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.newdawn.slick.TrueTypeFont;
@@ -17,6 +24,8 @@ public class Game
     private Menu test;
     private TrueTypeFont _font;
     private boolean run = true;
+    private String _LevelName;
+    private String _MaxWave;
     // to be deleted
     //temporary for testing
     //    TowerCannon tower;
@@ -31,6 +40,7 @@ public class Game
         _player = new Player(_grid, _waveManager,15,test);
     	Font awtFont = new Font("Times New Roman", Font.BOLD,30);
     	 _font = new TrueTypeFont(awtFont, false); 
+    	 _MaxWave = "?";
         //        to be deleted
         //        tower = new TowerCannon(quickLoadPngTexture("cannonbase"),
         //                _grid.getTile(8, 7), 20);
@@ -40,6 +50,7 @@ public class Game
     //Wave Mode mit einnen WaveManager
     public Game(int[][] map, int maxwaves, int x, int y)
     {
+    	_MaxWave = "?";
     	test = new Menu();
         _grid = new TileGrid(map);
         _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
@@ -56,6 +67,7 @@ public class Game
     //Wave Mode mit zwei WaveManager
     public Game(int[][] map, int maxwaves, int x, int y, int x2,int y2)
     {
+    	_MaxWave = "?";
     	test = new Menu();
         _grid = new TileGrid(map);
         _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
@@ -72,14 +84,41 @@ public class Game
     }
     
     //custom Wave
-    public Game(int[][] map, int [][]wavemap, int x, int y)
+    public Game(int[][] map, int [][]wavemap, int x, int y, String s)
     {
+    	_MaxWave = ""+ wavemap.length;
     	test = new Menu();
         _grid = new TileGrid(map);
         ArrayList<Enemy> EnemyTypes = new ArrayList<Enemy>();
         EnemyTypes.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 100,25,10));
         EnemyTypes.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 200,25,10));
         _waveManager = new WaveManager(EnemyTypes, 2, wavemap);
+        _LevelName = s;
+        _player = new Player(_grid, _waveManager,15,test);
+    	Font awtFont = new Font("Times New Roman", Font.BOLD,30);
+    	 _font = new TrueTypeFont(awtFont, false); 
+        //        to be deleted
+        //        tower = new TowerCannon(quickLoadPngTexture("cannonbase"),
+        //                _grid.getTile(8, 7), 20);
+
+    }
+    
+    public Game(int[][] map, int [][]wavemap, int x, int y,int [][]wavemap2, int x2, int y2, String s)
+    {
+    	_MaxWave = ""+ wavemap.length;
+    	test = new Menu();
+        _grid = new TileGrid(map);
+        ArrayList<Enemy> EnemyTypes1 = new ArrayList<Enemy>();
+        EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 100,25,10));
+        EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 200,25,10));
+        _waveManager = new WaveManager(EnemyTypes1, 2, wavemap);
+        
+        ArrayList<Enemy> EnemyTypes2 = new ArrayList<Enemy>();
+        EnemyTypes2.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x2, y2), _grid,test, 64, 64, 100,25,10));
+        EnemyTypes2.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x2, y2), _grid,test, 64, 64, 200,25,10));
+        _waveManager2 = new WaveManager(EnemyTypes2, 2, wavemap2);
+        
+        _LevelName = s;
         _player = new Player(_grid, _waveManager,15,test);
     	Font awtFont = new Font("Times New Roman", Font.BOLD,30);
     	 _font = new TrueTypeFont(awtFont, false); 
@@ -101,7 +140,7 @@ public class Game
         }
         _player.update();
        
-        drawstring(_waveManager.getWaveNumber(),"?",""+_player.getPlayerhealth() + "       Geld: " + test.getmoney());
+        drawstring(_waveManager.getWaveNumber(),""+_player.getPlayerhealth() + "       Geld: " + test.getmoney());
         test.update();
         } else {
         	run = false;
@@ -110,21 +149,78 @@ public class Game
     	//Wenn der Spieler alle Waves Überstanden hat
     	if(_waveManager.getWave() == 0) {
     		run = false;
+    		writedata();
     	}
     	
 //                  to be deleted
 //                tower.update();
     }
     
-    public void drawstring(String aktuelleWave, String maxWave, String aktuellesleben) {
+    public void drawstring(String aktuelleWave, String aktuellesleben) {
     	
-    	String s = "Welle: " + aktuelleWave+"/"+maxWave+"    Leben: "+ aktuellesleben ;
+    	String s = "Welle: " + aktuelleWave+"/"+_MaxWave+"    Leben: "+ aktuellesleben ;
     	_font.drawString(0, 0, s);
     	
     }
     
     public boolean getrun() {
     	return run;
+    }
+    
+    public void writedata() {
+    	File file = new File("data");
+    	ArrayList<String> list = readdata();
+		try {
+			FileWriter fw = new FileWriter(file.getAbsolutePath());
+			PrintWriter pw = new PrintWriter(fw);
+			boolean level = true;
+			for (int i = 0; i < list.size(); i++) {
+				pw.println(list.get(i));
+				if(list.get(i).equals(_LevelName)) {
+					level = false;
+				}
+				
+			}
+			if(level) {
+				pw.println(_LevelName);
+			}
+			pw.close();
+		} catch (IOException e) {
+			System.out.println("Err201");
+			e.printStackTrace();
+		}
+    	
+    }
+    
+    public ArrayList<String> readdata() {
+    	ArrayList<String> list = new ArrayList<String>();
+    	File file = new File("data");
+    	if(!file.exists()) {
+        	try {
+    			file.createNewFile();
+    		} catch (IOException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+    	}
+		try {
+			FileReader fr = new FileReader(file.getAbsolutePath());
+			BufferedReader br = new BufferedReader(fr);
+			
+			String str;
+			try {
+				
+				while ((str=br.readLine())!=null) {
+					list.add(str);
+				}
+			} catch (IOException e) {
+				System.out.println("Err111");
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			
+		}
+    	return list;
     }
     
 }

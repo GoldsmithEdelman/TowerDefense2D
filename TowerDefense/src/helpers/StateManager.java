@@ -118,15 +118,15 @@ public class StateManager
             break;
             
         case LEVEL1:
-        	gamestart(map1,10, 	19,4, customEnemyMap);
+        	gamestart(map1,10, 	19,4, customEnemyMap,"LEVEL1");
         	break;
         	
         case LEVEL2:
-        	gamestart(map2,20,	0,2,	0,5);
+        	gamestart(map2,20,	0,2,customEnemyMap,	0,5,customEnemyMap,"LEVEL2");
         	break;
         	
         case LEVEL3:
-        	gamestart(map3,30,	0,2);
+        	gamestart(map3,30,	0,2, customEnemyMap,"LEVEL3");
         	break;
         	
         }
@@ -156,10 +156,22 @@ public class StateManager
         }
     }
     
-    private static void gamestart(int [] [] map_,int maxwave, int x , int y, int [][] wavemap) {
+    private static void gamestart(int [] [] map_,int maxwave, int x , int y, int [][] wavemap,String s) {
         if (_game == null)
         {
-            _game = new Game(map_,wavemap, x,y);
+            _game = new Game(map_,wavemap, x,y,s);
+        }
+        _game.update();
+        if(!_game.getrun()) {
+        	run = _game.getrun();
+        	_game = null;
+        }
+    }
+    
+    private static void gamestart(int [] [] map_,int maxwave, int x , int y, int [][] wavemap,int x2 , int y2, int [][] wavemap2,String s) {
+        if (_game == null)
+        {
+            _game = new Game(map_,wavemap, x,y,wavemap2, x2,y2,s);
         }
         _game.update();
         if(!_game.getrun()) {
