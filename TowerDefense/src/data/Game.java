@@ -92,6 +92,7 @@ public class Game
         ArrayList<Enemy> EnemyTypes = new ArrayList<Enemy>();
         EnemyTypes.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 100,25,10));
         EnemyTypes.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 200,25,10));
+        EnemyTypes.add(new Enemy(quickLoadPngTexture("gegner"), _grid.getTile(x, y), _grid,test, 64, 64, 200,1000,100));
         _waveManager = new WaveManager(EnemyTypes, 2, wavemap);
         _LevelName = s;
         _player = new Player(_grid, _waveManager,15,test);

@@ -102,8 +102,8 @@ public class Player
         	int x = (int) Math.floor(Mouse.getX())/64;
         	int y = (int) Math.floor((HEIGHT - Mouse.getY() - 1))/64;
         	if(_grid.getTileType(x, y).equals(TileType.Grass)) {
+        		int t1 = _menu.getPointer();
         		if(!isTaken( x*64, y*64)) {
-        			int t1 = _menu.getPointer();
         			switch(t1) {
         				case 1:
         					if(_menu.getmoney() >= 10) {
@@ -116,6 +116,11 @@ public class Player
         					addFrezeCannon();
         					_menu.submoney(100);
         					}
+        			}
+        		} else if (isTaken( x*64, y*64)) {
+        			switch(t1) {
+        			case 10: 
+        				deleteTower(x,y);
         			}
         		}
         	}
@@ -181,6 +186,17 @@ public class Player
                 quickLoadPngTexture("Tower2"), _grid.getTile(Mouse.getX() / 64, (HEIGHT - Mouse.getY()-1)/64),0,
                 64*3, _waveManager.getCurrentWave()
                     .getEnemies()));
+    }
+    
+    private void deleteTower(float x, float y) {
+    	for (int i = 0; i < _towerList.size(); i++) {
+    		TowerBase tower = _towerList.get(i);
+			if (tower.getX() == (x*64) && tower.getY() == (y*64)) {
+				_towerList.remove(i);
+				System.out.println("Test");
+				break;
+			}
+		}
     }
 
 }
