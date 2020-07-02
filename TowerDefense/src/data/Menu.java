@@ -35,6 +35,10 @@ public class Menu {
 			_texture = quickLoadPngTexture("Tower2");
 			_kosten = 100;
 			break;
+		case 10: 
+			_texture = quickLoadPngTexture("Löschen");
+			_kosten = 0;
+			break;
 		}
 		
 	}
