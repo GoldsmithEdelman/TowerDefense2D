@@ -91,6 +91,11 @@ public class StateManager
     		{1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // map is 20x15
             {1, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     		{1,0}};
+    
+    static int[][] customEnemyMap2 = {
+    		{1, 3,1,1,1,1,1,1,1,1, 0}, 
+            {1, 2, 1, 1, 0, 0},
+    		{1,0}};
 
 
     public static void update()
@@ -122,7 +127,7 @@ public class StateManager
         	break;
         	
         case LEVEL2:
-        	gamestart(map2,20,	0,2,customEnemyMap,	0,5,customEnemyMap,"LEVEL2");
+        	gamestart(map2,20,	0,2,customEnemyMap2,	0,5,customEnemyMap,"LEVEL2");
         	break;
         	
         case LEVEL3:

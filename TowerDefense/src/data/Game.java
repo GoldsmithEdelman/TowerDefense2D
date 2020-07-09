@@ -109,15 +109,47 @@ public class Game
     	_MaxWave = ""+ wavemap.length;
     	test = new Menu();
         _grid = new TileGrid(map);
+        //EnemyListe + Ort1
         ArrayList<Enemy> EnemyTypes1 = new ArrayList<Enemy>();
         EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 100,25,10));
-        EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 200,25,10));
-        _waveManager = new WaveManager(EnemyTypes1, 2, wavemap);
-        
+        EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x, y), _grid,test, 64, 64, 200,25,10));        
+        EnemyTypes1.add(new Enemy(quickLoadPngTexture("gegner"), _grid.getTile(x, y), _grid,test, 64, 64, 200,1000,100));
+        //EnemyListe + Ort2
         ArrayList<Enemy> EnemyTypes2 = new ArrayList<Enemy>();
         EnemyTypes2.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x2, y2), _grid,test, 64, 64, 100,25,10));
         EnemyTypes2.add(new Enemy(quickLoadPngTexture("enemy1"), _grid.getTile(x2, y2), _grid,test, 64, 64, 200,25,10));
-        _waveManager2 = new WaveManager(EnemyTypes2, 2, wavemap2);
+        EnemyTypes2.add(new Enemy(quickLoadPngTexture("gegner"), _grid.getTile(x2, y2), _grid,test, 64, 64, 200,1000,100));
+        
+        
+        ArrayList<Enemy> EnemyTypes = new ArrayList<Enemy>();
+        for (int i = 0; i < EnemyTypes1.size(); i++) {
+        	EnemyTypes.add(EnemyTypes1.get(i));
+		}
+        for (int i = 0; i < EnemyTypes2.size(); i++) {
+        	EnemyTypes.add(EnemyTypes2.get(i));
+		}
+        
+        int [][]wavemapzusammen = new int[wavemap.length][];
+        for (int i = 0; i < wavemap.length; i++) {
+        	wavemapzusammen[i] = new int[wavemap[i].length+wavemap2[i].length];
+        	int k = 0;
+        	for (int j = 0; j < wavemap[i].length; j = j+2) {
+        		wavemapzusammen[i][j]= wavemap[i][k];
+        		
+        		if(wavemap2[i].length+1>j) {
+        			if(!(wavemap2[i][k]==0))
+        			wavemapzusammen[i][j+1]= wavemap2[i][k] + EnemyTypes1.size();
+        		}
+        		else {
+        			wavemapzusammen[i][j+1] = 0;
+        		}
+        		k++;
+        		
+			}
+		}
+        
+        
+        _waveManager = new WaveManager(EnemyTypes, 1, wavemapzusammen);
         
         _LevelName = s;
         _player = new Player(_grid, _waveManager,15,test);
