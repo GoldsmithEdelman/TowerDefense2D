@@ -47,17 +47,6 @@ public class TileGrid
         {
             for (int j = 0; j < _map[i].length; j++)
             {
-                //to be deleted                
-                //                if (newMap[j][i] == 0)
-                //                {
-                //                    _map[i][j] = new Tile(i * 64, j * 64, 64, 64,
-                //                            TileType.Grass);
-                //                }
-                //                else
-                //                {
-                //                    _map[i][j] = new Tile(i * 64, j * 64, 64, 64,
-                //                            TileType.Water);
-                //                }
                 switch (newMap[j][i])
                 {
                 case 0:
@@ -70,7 +59,7 @@ public class TileGrid
                     break;
                 case 2:
                     _map[i][j] = new Tile(i * 64, j * 64, 64, 64,
-                            TileType.Dirt); 
+                            TileType.Dirt);
                     break;
                 case 3:
                     _map[i][j] = new Tile(i * 64, j * 64, 64, 64,
@@ -113,7 +102,7 @@ public class TileGrid
         else
             return new Tile(0, 0, 0, 0, TileType.NULL);
     }
-    
+
     public TileType getTileType(int xTile, int yTile)
     {
         if (xTile < _tilesWidth && yTile < _tilesHeight && xTile > -1
@@ -129,11 +118,6 @@ public class TileGrid
         {
             for (int j = 0; j < _map[i].length; j++)
             {
-                // to be deleted
-                //                Tile dummyTile = _map[i][j];
-                //                drawRectangleTexture(dummyTile.getTexture(), dummyTile.getX(),
-                //                        dummyTile.getY(), dummyTile.getWidth(),
-                //                        dummyTile.getHeight());
                 _map[i][j].draw();
             }
         }
