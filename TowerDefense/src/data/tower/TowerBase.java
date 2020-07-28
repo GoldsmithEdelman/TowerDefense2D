@@ -1,6 +1,8 @@
-package data;
+package data.tower;
 
 import java.util.ArrayList;
+
+import data.enemy.Enemy;
 
 public interface TowerBase {
 	

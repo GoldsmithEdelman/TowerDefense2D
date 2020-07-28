@@ -1,6 +1,10 @@
-package data;
+package data.tower;
 
 import org.newdawn.slick.opengl.Texture;
+
+import data.enemy.Enemy;
+import data.startup.Game;
+
 import static helpers.Clock.*;
 import static helpers.Artist.*;
 

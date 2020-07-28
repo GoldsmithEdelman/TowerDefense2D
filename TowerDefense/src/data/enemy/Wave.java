@@ -1,4 +1,4 @@
-package data;
+package data.enemy;
 
 import java.awt.List;
 import java.util.ArrayList;

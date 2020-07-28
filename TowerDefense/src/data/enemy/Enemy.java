@@ -1,4 +1,4 @@
-package data;
+package data.enemy;
 
 import static helpers.Artist.drawRectangleTexture;
 import static helpers.Clock.delta;
@@ -6,6 +6,10 @@ import static helpers.Clock.delta;
 import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
+
+import data.field.Tile;
+import data.field.TileGrid;
+import data.player.Menu;
 
 /**
  * 

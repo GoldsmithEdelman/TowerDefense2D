@@ -1,4 +1,4 @@
-package data;
+package data.tower;
 
 import static helpers.Artist.*;
 import static helpers.Clock.*;
@@ -7,6 +7,10 @@ import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
+
+import data.enemy.Enemy;
+import data.field.Tile;
+import data.startup.Game;
 
 public class TowerCannon implements TowerBase
 {

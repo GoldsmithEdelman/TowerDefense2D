@@ -1,4 +1,4 @@
-package data;
+package data.startup;
 
 import static helpers.Artist.quickLoadPngTexture;
 
@@ -13,6 +13,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.newdawn.slick.TrueTypeFont;
+
+import data.enemy.Enemy;
+import data.enemy.WaveManager;
+import data.field.TileGrid;
+import data.player.Menu;
+import data.player.Player;
 
 public class Game
 {
@@ -59,23 +65,7 @@ public class Game
 
     }
 
-    //Wave Mode mit zwei WaveManager
-    public Game(int[][] map, int maxwaves, int x, int y, int x2, int y2)
-    {
-        _MaxWave = "?";
-        test = new Menu();
-        _grid = new TileGrid(map);
-        _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x, y), _grid, test, 64, 64, 200, 25, 10), 2, 2,
-                maxwaves);
-        _waveManager2 = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x2, y2), _grid, test, 64, 64, 200, 25, 10), 2, 2,
-                maxwaves);
-        _player = new Player(_grid, _waveManager, 2, test);
-        Font awtFont = new Font("Times New Roman", Font.BOLD, 30);
-        _font = new TrueTypeFont(awtFont, false);
-
-    }
+ 
 
     //custom Wave
     public Game(int[][] map, int[][] wavemap, int x, int y, String s)

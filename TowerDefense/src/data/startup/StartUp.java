@@ -1,10 +1,11 @@
-package data;
+package data.startup;
 
 import static helpers.Artist.*;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
+import data.menu.MainMenu;
 import helpers.Clock;
 import helpers.StateManager;
 

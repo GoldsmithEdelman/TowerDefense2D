@@ -2,9 +2,9 @@ package helpers;
 
 import static helpers.Artist.beginSession;
 
-import data.Game;
-import data.MainMenu;
-//import data.Editor;
+import data.editor.Editor;
+import data.menu.MainMenu;
+import data.startup.Game;
 
 public class StateManager
 {
@@ -16,6 +16,7 @@ public class StateManager
     public static GameState _gameState = GameState.MAINMENU;
     public static MainMenu _mainMenu;
     public static Game _game;
+    public static Editor _editor;
     private static boolean run = true;
     //public static Editor _editor;
 
@@ -87,6 +88,23 @@ public class StateManager
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0}};
     
+    static int[][] editormap = {
+            {0, 1, 2, 3, 0, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5}, // map is 20x15
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0},
+            {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0}};
+    
     static int[][] customEnemyMap = {
     		{1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // map is 20x15
             {1, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -120,6 +138,15 @@ public class StateManager
             }
             break;
         case EDITOR:
+            if (_editor == null)
+            {
+            	_editor = new Editor(editormap);
+            }
+            _editor.update();
+            if(!_editor.getrun()) {
+            	run = _editor.getrun();
+            	_editor = null;
+            }
             break;
             
         case LEVEL1:
@@ -148,18 +175,7 @@ public class StateManager
         	_game = null;
         }
     }
-    //map, höchste wave, wave spawn x und y
-    private static void gamestart(int [] [] map_,int maxwave, int x , int y, int x2, int y2) {
-        if (_game == null)
-        {
-            _game = new Game(map_,maxwave, x,y,x2,y2);
-        }
-        _game.update();
-        if(!_game.getrun()) {
-        	run = _game.getrun();
-        	_game = null;
-        }
-    }
+
     
     private static void gamestart(int [] [] map_,int maxwave, int x , int y, int [][] wavemap,String s) {
         if (_game == null)
@@ -184,6 +200,11 @@ public class StateManager
         	_game = null;
         }
     }
+    
+    private static void editorstart() {
+    	
+    }
+    
 
     // could be usefull later on
     public static void setState(GameState state)

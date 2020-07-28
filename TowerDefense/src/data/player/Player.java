@@ -1,8 +1,14 @@
-package data;
+package data.player;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import data.enemy.WaveManager;
+import data.field.TileGrid;
+import data.field.TileType;
+import data.tower.FreezeTower;
+import data.tower.TowerBase;
+import data.tower.TowerCannon;
 import helpers.Clock;
 
 import static helpers.Artist.*;

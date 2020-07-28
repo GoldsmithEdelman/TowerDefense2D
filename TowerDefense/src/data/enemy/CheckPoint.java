@@ -1,4 +1,6 @@
-package data;
+package data.enemy;
+
+import data.field.Tile;
 
 public class CheckPoint
 {

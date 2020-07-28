@@ -1,4 +1,4 @@
-package data;
+package data.tower;
 
 import static helpers.Artist.drawRectangleRotatedTexture;
 import static helpers.Artist.drawRectangleTexture;
@@ -9,7 +9,11 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
 
-public class FreezeTower extends TowerCannon {
+import data.enemy.Enemy;
+import data.field.Tile;
+import data.startup.Game;
+
+public class FreezeTower implements TowerBase {
 
 	private float _range;
     private float _x;
@@ -30,7 +34,6 @@ public class FreezeTower extends TowerCannon {
 	
 	
 	public FreezeTower(Texture baseTexture, Tile startTile, int damage, int range, ArrayList<Enemy> enemies) {
-		super(baseTexture, startTile, damage, range, enemies);
     	this._range = range;
         this._baseTexture = baseTexture;
         this._cannonTexture = quickLoadPngTexture("Towergun");

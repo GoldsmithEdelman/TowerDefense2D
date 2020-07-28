@@ -1,4 +1,4 @@
-package data;
+package data.menu;
 
 import static helpers.Artist.beginSession;
 
@@ -101,7 +101,7 @@ public class MainMenu extends JFrame
     private void createListeners()
     {
         _play.addActionListener(new MainMenuActionListener("play", this));
-        _editor.addActionListener(new MainMenuActionListener("edito", this));
+        _editor.addActionListener(new MainMenuActionListener("editor", this));
         _quit.addActionListener(new MainMenuActionListener("quit", this));
         _level1button.addActionListener(new MainMenuActionListener("level1", this));
         _level2button.addActionListener(new MainMenuActionListener("level2", this));
@@ -147,6 +147,24 @@ public class MainMenu extends JFrame
         }
         else if (command.equals("editor"))
         {
+        	this.setVisible(false);
+            this.dispose();
+            beginSession();
+            StateManager.setState(GameState.EDITOR);
+            StateManager.run();
+            while (!Display.isCloseRequested())
+            {
+
+                Clock.update(); //always update the clock before drawing enemies
+                StateManager.update();
+                if(StateManager.getrun() == false) {
+                	this.setVisible(true);
+                	break;
+                }
+                Display.update();
+                Display.sync(60);
+            }
+            Display.destroy();
         }
         else if (command.equals("level1"))
         {

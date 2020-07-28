@@ -1,4 +1,4 @@
-package data;
+package data.player;
 
 import static helpers.Artist.*;
 
@@ -43,7 +43,7 @@ public class Menu
             _kosten = 100;
             break;
         case 10:
-            _texture = quickLoadPngTexture("Löschen");
+            _texture = quickLoadPngTexture("Loeschen");
             _kosten = 0;
             break;
         }

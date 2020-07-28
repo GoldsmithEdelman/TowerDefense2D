@@ -1,4 +1,4 @@
-package data;
+package data.field;
 
 import org.newdawn.slick.opengl.Texture;
 
