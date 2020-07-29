@@ -39,10 +39,72 @@ public class Game
     //Endlose Mode
     public Game(int[][] map)
     {
+    	int spawnX = 0;
+    	int spawnY = 2;
         test = new Menu();
         _grid = new TileGrid(map);
+        
+        File file = new File("customLevel");
+    	if(!file.exists()) {
+    		//nothing
+    	} 
+    	else {
+    		try {
+    			FileReader fr = new FileReader(file.getAbsolutePath());
+    			BufferedReader br = new BufferedReader(fr);
+    			
+    			String str;
+    			try {
+    				ArrayList<String[]> table = new ArrayList<String[]>();
+    				while ((str=br.readLine())!=null) {
+    					String[] parts = str.split("-");
+    					table.add(parts);
+    				}
+    				System.out.println(_grid.getTilesHeight()+" test");
+    				if(table.size() == _grid.getTilesHeight()||table.get(0).length == _grid.getTilesWidth()) {
+    					for (int i = 0; i < table.size(); i++) {
+							for (int j = 0; j < table.get(i).length; j++) {
+								System.out.println(i +"/"+ j);
+								switch (table.get(i)[j]) {
+								case "Grass":
+									map[i+1][j] =    0;
+									break;
+								case "Water":
+									map[i+1][j] =    1;
+									break;
+								case "SPAWN":
+									map[i+1][j] =    2;
+									spawnY = i+1;
+									spawnX = j;
+									break;
+								case "Dirt":
+									map[i+1][j] =    2;
+									break;
+
+								default:
+									break;
+								}
+								
+							}
+						}
+    					_grid = new TileGrid(map);
+    				}
+    				
+    			} catch (IOException e) {
+    				System.out.println("Err222");
+    				e.printStackTrace();
+    			}
+    		} catch (FileNotFoundException e) {
+    			System.out.println("Err222");
+    			e.printStackTrace();
+    		}
+    	}
+    	
+        
+        
+        
         _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(0, 2), _grid, test, 64, 64, 200, 25, 10), 2, 2);
+                _grid.getTile(spawnX, spawnY), _grid, test, 64, 64, 200, 25, 10), 2, 2);
         _player = new Player(_grid, _waveManager, 3, test);
         Font awtFont = new Font("Times New Roman", Font.BOLD, 30);
         _font = new TrueTypeFont(awtFont, false);

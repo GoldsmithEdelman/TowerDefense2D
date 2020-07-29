@@ -109,7 +109,7 @@ public class EditorActionListner {
              boolean level = true;
          	for (int y = 1; y < _grid.getTilesHeight(); y++) {
             	for (int x = 0; x < _grid.getTilesWidth(); x++) {
-            		pw.print(_grid.getTileType(x, y).name()+ " ");
+            		pw.print(_grid.getTileType(x, y).name()+ "-");
         		}
             	pw.println();
     		}
