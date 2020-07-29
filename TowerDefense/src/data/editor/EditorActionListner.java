@@ -19,18 +19,24 @@ public class EditorActionListner {
 	private boolean _leftMouseButtonDown = false;
 	private TileType _ausgewaelt;
 	private boolean _run;
+	private EditorArtist _art;
 
 	public EditorActionListner(TileGrid grid) {
         _grid = grid;
         _run = true;
-        _ausgewaelt = TileType.Dirt;
+        _ausgewaelt = TileType.Grass;
         setTile(TileType.SPAWN, 0, 2);
+        buildEditor();
+        _art = new EditorArtist(_grid.getTilesWidth(), 0);
 	}
 	
 	public void update() {
 		if (Mouse.isButtonDown(0) && !_leftMouseButtonDown)
         {
+			//Test
 			savemap();
+			//
+			
             int x = (int) Math.floor(Mouse.getX()) / 64;
             int y = (int) Math.floor((HEIGHT - Mouse.getY() - 1)) / 64;
             
@@ -41,6 +47,7 @@ public class EditorActionListner {
             	
             	if(!menu.equals(_grid.getTileType(x, y)) && !exit.equals(_grid.getTileType(x, y))) {
             		_ausgewaelt = _grid.getTileType(x, y);
+            		_art.select(x, y);
             	} else if (exit.equals(_grid.getTileType(x, y))) {
             		_run = false;
             	} else  {
@@ -61,7 +68,7 @@ public class EditorActionListner {
             
             
         }
-		
+		_art.update();
 		_leftMouseButtonDown = Mouse.isButtonDown(0);
 	}
 	
@@ -115,5 +122,15 @@ public class EditorActionListner {
          }
     }
     
+    public void buildEditor() {
+    	for (int i = 0; i < _grid.getTilesWidth(); i++) {
+    		setTile(TileType.Menu, i,0);
+		}
+    	setTile(TileType.Grass ,0,0);
+    	setTile(TileType.Dirt ,1,0);
+    	setTile(TileType.SPAWN ,2,0);
+    	setTile(TileType.Water ,3,0);
+    	setTile(TileType.EXIT ,_grid.getTilesWidth()-1,0);
+    }
 
 }
