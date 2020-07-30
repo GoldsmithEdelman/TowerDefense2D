@@ -148,12 +148,28 @@ public class Player
             {
                 Clock.changeMultiplier(-0.2f);
             }
+            if (Keyboard.getEventKey() == Keyboard.KEY_UP
+                    && Keyboard.getEventKeyState()) //Keyboard.getEventKeyState() gives one per press
+            {
+                Clock.resume();
+            }
+            if (Keyboard.getEventKey() == Keyboard.KEY_DOWN
+                    && Keyboard.getEventKeyState()) //Keyboard.getEventKeyState() gives one per press
+            {
+                Clock.stop();
+            }
+            if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE
+                    && Keyboard.getEventKeyState()) //Keyboard.getEventKeyState() gives one per press
+            {
+                _playerhealth = 0;
+            }
+            //Zum Test
             if (Keyboard.getEventKey() == Keyboard.KEY_T
                     && Keyboard.getEventKeyState())
             {
                 setTile();
             }
-
+            //Beendet das Spiel
             //TowerCannon
             if (Keyboard.getEventKey() == Keyboard.KEY_1)
             {

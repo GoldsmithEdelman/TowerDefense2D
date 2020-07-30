@@ -68,6 +68,14 @@ public class Clock
             _multiplier += change;
         }
     }
+    
+    public static void stop() {
+    	_multiplier = 0;
+    }
+    
+    public static void resume() {
+    	_multiplier = 1;
+    }
 
     public static void pause()
     {

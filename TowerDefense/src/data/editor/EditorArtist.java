@@ -20,12 +20,19 @@ public class EditorArtist {
 		
 	}
 	
-	
+	/**
+	 * Zeichnet "ausgewaelt" auf ein ausgewaeltes Feld
+	 * @param x
+	 * @param y
+	 */
 	public void select(int x, int y) {
 		System.out.println("x"+ x + " y"+y);
 		_ausgewahlt = new Tile(x*64, y*64, 64, 64, TileType.EditorAusgewahlt);
 	}
 	
+	/**
+	 * Zeichnet die Menue Umrandung und ausgewaelt
+	 */
 	public void update() {
 		for (int i = 0; i < _menubar.length; i++) {
 			_menubar[i].draw();

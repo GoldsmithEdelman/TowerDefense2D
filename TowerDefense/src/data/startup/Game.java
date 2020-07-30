@@ -27,23 +27,38 @@ public class Game
     private WaveManager _waveManager;
     private WaveManager _waveManager2;
     public static final int TILE_SIZE = 64;
-    private Menu test;
+    private Menu _shop;
     private TrueTypeFont _font;
     private boolean run = true;
     private String _LevelName;
     private String _MaxWave;
-    // to be deleted
-    //temporary for testing
-    //    TowerCannon tower;
+    private int spawnX, spawnY;
 
-    //Endlose Mode
+
+    /**
+     * Lädt eine Karte und erstellt daraus ein Level. Beinhaltet {Eine art von Feinden, SpawnPoint(0/2), Editor-Karte(>Karte), Endlosse Wellen}
+     * @param map
+     */
     public Game(int[][] map)
     {
-    	int spawnX = 0;
-    	int spawnY = 2;
-        test = new Menu();
+    	spawnX = 0;
+    	spawnY = 2;
+    	_shop = new Menu();
         _grid = new TileGrid(map);
-        
+        //Lädt die Editor-Karte
+        loadEditorMap(map);
+        _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
+                _grid.getTile(spawnX, spawnY), _grid, _shop, 64, 64, 200, 25, 10), 2, 2);
+        _player = new Player(_grid, _waveManager, 1, _shop);
+        _MaxWave = "?";
+        createFond();
+    }
+    
+    /**
+     * Ladet die Editor-Karte in das aktuelle Grid und setzt den Spawn neu, wenn diese existiert.
+     * @param map
+     */
+    private void loadEditorMap(int[][] map) {
         File file = new File("customLevel");
     	if(!file.exists()) {
     		//nothing
@@ -52,7 +67,6 @@ public class Game
     		try {
     			FileReader fr = new FileReader(file.getAbsolutePath());
     			BufferedReader br = new BufferedReader(fr);
-    			
     			String str;
     			try {
     				ArrayList<String[]> table = new ArrayList<String[]>();
@@ -84,94 +98,78 @@ public class Game
 								default:
 									break;
 								}
-								
 							}
 						}
     					_grid = new TileGrid(map);
     				}
-    				
     			} catch (IOException e) {
-    				System.out.println("Err222");
+    				System.out.println("Err loadEditorMap(int[][] map) 1");
     				e.printStackTrace();
     			}
     		} catch (FileNotFoundException e) {
-    			System.out.println("Err222");
+    			System.out.println("Err loadEditorMap(int[][] map) 2");
     			e.printStackTrace();
     		}
     	}
-    	
-        
-        
-        
-        _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(spawnX, spawnY), _grid, test, 64, 64, 200, 25, 10), 2, 2);
-        _player = new Player(_grid, _waveManager, 3, test);
-        Font awtFont = new Font("Times New Roman", Font.BOLD, 30);
-        _font = new TrueTypeFont(awtFont, false);
-        _MaxWave = "?";
-
     }
 
-    //Wave Mode mit einnen WaveManager
-    public Game(int[][] map, int maxwaves, int x, int y)
-    {
-        _MaxWave = "?";
-        test = new Menu();
-        _grid = new TileGrid(map);
-        _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x, y), _grid, test, 64, 64, 200, 25, 10), 2, 2,
-                maxwaves);
-        _player = new Player(_grid, _waveManager, 2, test);
-        Font awtFont = new Font("Times New Roman", Font.BOLD, 30);
-        _font = new TrueTypeFont(awtFont, false);
-
-    }
+  //Old Version can be deleted
+//    //Wave Mode mit einnen WaveManager
+//    public Game(int[][] map, int maxwaves, int x, int y)
+//    {
+//        _MaxWave = "?";
+//        _shop = new Menu();
+//        _grid = new TileGrid(map);
+//        _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
+//                _grid.getTile(x, y), _grid, _shop, 64, 64, 200, 25, 10), 2, 2,
+//                maxwaves);
+//        _player = new Player(_grid, _waveManager, 2, _shop);
+//        createFond();
+//    }
 
  
 
-    //custom Wave
+    /**
+     * Erstellt ein Spiel mit einer Karte
+     * @param map
+     * @param wavemap
+     * @param x
+     * @param y
+     * @param s
+     */
     public Game(int[][] map, int[][] wavemap, int x, int y, String s)
     {
         _MaxWave = "" + wavemap.length;
-        test = new Menu();
+        _shop = new Menu();
         _grid = new TileGrid(map);
-        ArrayList<Enemy> EnemyTypes = new ArrayList<Enemy>();
-        EnemyTypes.add(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x, y), _grid, test, 64, 64, 100, 25, 10));
-        EnemyTypes.add(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x, y), _grid, test, 64, 64, 200, 25, 10));
-        EnemyTypes.add(new Enemy(quickLoadPngTexture("gegner"),
-                _grid.getTile(x, y), _grid, test, 64, 64, 200, 1000, 100));
+        ArrayList<Enemy> EnemyTypes = createEnemyTypes(x,y);
         _waveManager = new WaveManager(EnemyTypes, 2, wavemap);
         _LevelName = s;
-        _player = new Player(_grid, _waveManager, 2, test);
-        Font awtFont = new Font("Times New Roman", Font.BOLD, 30);
-        _font = new TrueTypeFont(awtFont, false);
-
+        _player = new Player(_grid, _waveManager, 2, _shop);
+        createFond();
     }
-
+    
+    /**
+     * Erstellt ein Spiel mit einer Karte und zwei SpawnPoints
+     * @param map
+     * @param wavemap
+     * @param x
+     * @param y
+     * @param wavemap2
+     * @param x2
+     * @param y2
+     * @param s
+     */
     public Game(int[][] map, int[][] wavemap, int x, int y, int[][] wavemap2,
             int x2, int y2, String s)
     {
         _MaxWave = "" + wavemap.length;
-        test = new Menu();
+        _shop = new Menu();
         _grid = new TileGrid(map);
         //EnemyListe + Ort1
-        ArrayList<Enemy> EnemyTypes1 = new ArrayList<Enemy>();
-        EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x, y), _grid, test, 64, 64, 100, 25, 10));
-        EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x, y), _grid, test, 64, 64, 200, 25, 10));
-        EnemyTypes1.add(new Enemy(quickLoadPngTexture("gegner"),
-                _grid.getTile(x, y), _grid, test, 64, 64, 200, 1000, 100));
+        ArrayList<Enemy> EnemyTypes1 = createEnemyTypes(x,y);
         //EnemyListe + Ort2
-        ArrayList<Enemy> EnemyTypes2 = new ArrayList<Enemy>();
-        EnemyTypes2.add(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x2, y2), _grid, test, 64, 64, 100, 25, 10));
-        EnemyTypes2.add(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x2, y2), _grid, test, 64, 64, 200, 25, 10));
-        EnemyTypes2.add(new Enemy(quickLoadPngTexture("gegner"),
-                _grid.getTile(x2, y2), _grid, test, 64, 64, 200, 1000, 100));
+        ArrayList<Enemy> EnemyTypes2 = createEnemyTypes(x2,y2);
 
         ArrayList<Enemy> EnemyTypes = new ArrayList<Enemy>();
         for (int i = 0; i < EnemyTypes1.size(); i++)
@@ -211,12 +209,30 @@ public class Game
         _waveManager = new WaveManager(EnemyTypes, 1, wavemapzusammen);
 
         _LevelName = s;
-        _player = new Player(_grid, _waveManager, 2, test);
-        Font awtFont = new Font("Times New Roman", Font.BOLD, 30);
-        _font = new TrueTypeFont(awtFont, false);
+        _player = new Player(_grid, _waveManager, 2, _shop);
+        createFond();
 
     }
+    
+    private ArrayList<Enemy> createEnemyTypes(int x, int y) {
+    	ArrayList<Enemy> EnemyTypes1 = new ArrayList<Enemy>();
+        EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"),
+                _grid.getTile(x, y), _grid, _shop, 64, 64, 100, 25, 10));
+        EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"),
+                _grid.getTile(x, y), _grid, _shop, 64, 64, 200, 25, 10));
+        EnemyTypes1.add(new Enemy(quickLoadPngTexture("gegner"),
+                _grid.getTile(x, y), _grid, _shop, 64, 64, 200, 1000, 100));
+        return EnemyTypes1;
+    }
+    
+    private void createFond() {
+    	Font awtFont = new Font("Times New Roman", Font.BOLD, 30);
+        _font = new TrueTypeFont(awtFont, false);
+    }
 
+    /**
+     * Updatet alle Update Methoden, Überprüft ob das Spiel zu Ende ist
+     */
     public void update()
     {
 
@@ -230,42 +246,48 @@ public class Game
                 _waveManager2.update();
             }
             _player.update();
-
             drawstring(_waveManager.getWaveNumber(),
                     "" + _player.getPlayerhealth() + "       Geld: "
-                            + test.getmoney());
-            test.update();
+                            + _shop.getmoney());
+            _shop.update();
         }
+        //Wenn der Spieler kein Leben mehr hat
         else
         {
             run = false;
         }
-
-        //Wenn der Spieler alle Waves ï¿½berstanden hat
+        //Wenn der Spieler alle Waves ueberstanden hat
         if (_waveManager.getWave() == 0)
         {
             run = false;
             writedata();
         }
-
-        //                  to be deleted
-        //                tower.update();
     }
 
+    /**
+     * Zeichnet einen String oben links mit der aktuellen Welle und Leben des Spielers
+     * @param aktuelleWave
+     * @param aktuellesleben
+     */
     public void drawstring(String aktuelleWave, String aktuellesleben)
     {
-
         String s = "Welle: " + aktuelleWave + "/" + _MaxWave + "    Leben: "
                 + aktuellesleben;
         _font.drawString(0, 0, s);
-
     }
-
+    
+    /**
+     * Gibt den Status des Spiels wieder
+     * @return
+     */
     public boolean getrun()
     {
         return run;
     }
-
+    
+    /**
+     * Schreibt den Namen des Levels in einer Datei "data" 
+     */
     public void writedata()
     {
         File file = new File("data");
@@ -283,7 +305,6 @@ public class Game
                 {
                     level = false;
                 }
-
             }
             if (level)
             {
@@ -296,9 +317,12 @@ public class Game
             System.out.println("Err201");
             e.printStackTrace();
         }
-
     }
 
+    /**
+     * Liest alle Level Namen in der Datei "data" und gibt diese als ArrayList<String> wieder.
+     * @return ArrayList<String>
+     */
     public ArrayList<String> readdata()
     {
         ArrayList<String> list = new ArrayList<String>();
@@ -323,7 +347,6 @@ public class Game
             String str;
             try
             {
-
                 while ((str = br.readLine()) != null)
                 {
                     list.add(str);

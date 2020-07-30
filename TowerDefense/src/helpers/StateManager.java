@@ -163,18 +163,20 @@ public class StateManager
         	
         }
     }
+    
+    //Old Version can be deleted
     //map, höchste wave, wave spawn x und y
-    private static void gamestart(int [] [] map_,int maxwave, int x , int y) {
-        if (_game == null)
-        {
-            _game = new Game(map_,maxwave, x,y);
-        }
-        _game.update();
-        if(!_game.getrun()) {
-        	run = _game.getrun();
-        	_game = null;
-        }
-    }
+//    private static void gamestart(int [] [] map_,int maxwave, int x , int y) {
+//        if (_game == null)
+//        {
+//            _game = new Game(map_,maxwave, x,y);
+//        }
+//        _game.update();
+//        if(!_game.getrun()) {
+//        	run = _game.getrun();
+//        	_game = null;
+//        }
+//    }
 
     
     private static void gamestart(int [] [] map_,int maxwave, int x , int y, int [][] wavemap,String s) {
