@@ -6,9 +6,10 @@ import org.lwjgl.input.Mouse;
 import data.enemy.WaveManager;
 import data.field.TileGrid;
 import data.field.TileType;
-import data.tower.FreezeTower;
 import data.tower.TowerBase;
-import data.tower.TowerCannon;
+import data.tower.tower1.TowerCannon;
+import data.tower.tower2.FreezeTower;
+import data.tower.tower3.ThirdTower;
 import helpers.Clock;
 
 import static helpers.Artist.*;
@@ -25,6 +26,7 @@ public class Player
     private boolean _leftMouseButtonDown = false;
     private int _playerhealth;
     private Menu _menu;
+    private int thirdcost;
 
     public Player(TileGrid grid, WaveManager waveManager, int health, Menu menu)
     {
@@ -39,7 +41,7 @@ public class Player
         this._menu = menu;
         this._waveManager = waveManager;
         this._towerList = new ArrayList<TowerBase>();
-
+        thirdcost = 100;
     }
 
     public int getPlayerhealth()
@@ -118,7 +120,18 @@ public class Player
                             addFrezeCannon();
                             _menu.submoney(100);
                         }
+                        break;
+                    case 3:
+                    	 if (_menu.getmoney() >= thirdcost)
+                         {
+                    		 addThirdTower();
+                             _menu.submoney(thirdcost);
+                             thirdcost = (int) (thirdcost * 3);
+                             _menu.updateThirdMoney(thirdcost);
+                         }
+                    	break;
                     }
+                    
                 }
                 else if (isTaken(x * 64, y * 64))
                 {
@@ -180,6 +193,10 @@ public class Player
             {
                 _menu.setPointer(2);
             }
+            if (Keyboard.getEventKey() == Keyboard.KEY_3)
+            {
+                _menu.setPointer(3);
+            }
             //DeleteTower
             if (Keyboard.getEventKey() == Keyboard.KEY_0)
             {
@@ -212,6 +229,15 @@ public class Player
                 _grid.getTile(Mouse.getX() / 64,
                         (HEIGHT - Mouse.getY() - 1) / 64),
                 0, 64 * 3, _waveManager.getCurrentWave()
+                    .getEnemies()));
+    }
+    
+    private void addThirdTower()
+    {
+        _towerList.add(new ThirdTower(quickLoadPngTexture("Turm3"),
+                _grid.getTile(Mouse.getX() / 64,
+                        (HEIGHT - Mouse.getY() - 1) / 64),
+                100, 64 * 20, _waveManager.getCurrentWave()
                     .getEnemies()));
     }
 

@@ -1,4 +1,4 @@
-package data.tower;
+package data.tower.tower2;
 
 import org.newdawn.slick.opengl.Texture;
 

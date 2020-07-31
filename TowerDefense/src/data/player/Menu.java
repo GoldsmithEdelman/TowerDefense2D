@@ -16,6 +16,7 @@ public class Menu
     int _pointer = 0;
     int _money;
     int _kosten;
+    int _thirdkosten;
     TrueTypeFont _font;
 
     public Menu()
@@ -27,6 +28,7 @@ public class Menu
         _font = new TrueTypeFont(awtFont, false);
         _money = 1000;
         _kosten = 10;
+        _thirdkosten= 100;
     }
 
     public void setPointer(int i)
@@ -41,6 +43,11 @@ public class Menu
         case 2:
             _texture = quickLoadPngTexture("Tower2");
             _kosten = 100;
+            break;
+        case 3:
+            _texture = quickLoadPngTexture("Turm3");
+            _kosten = _thirdkosten;
+            System.out.println(_thirdkosten);
             break;
         case 10:
             _texture = quickLoadPngTexture("Loeschen");
@@ -92,5 +99,10 @@ public class Menu
     public void submoney(int money)
     {
         _money = _money - money;
+    }
+    
+    public void updateThirdMoney(int thirdkosten) {
+    	_thirdkosten = thirdkosten;
+    	_kosten = thirdkosten;
     }
 }

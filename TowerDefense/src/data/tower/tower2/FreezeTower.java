@@ -1,4 +1,4 @@
-package data.tower;
+package data.tower.tower2;
 
 import static helpers.Artist.drawRectangleRotatedTexture;
 import static helpers.Artist.drawRectangleTexture;
@@ -12,6 +12,7 @@ import org.newdawn.slick.opengl.Texture;
 import data.enemy.Enemy;
 import data.field.Tile;
 import data.startup.Game;
+import data.tower.TowerBase;
 
 public class FreezeTower implements TowerBase {
 
