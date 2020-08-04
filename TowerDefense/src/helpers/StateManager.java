@@ -105,15 +105,35 @@ public class StateManager
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0}};
     
+    static int[][] Level1 = {
+    		{1, 3}, 
+            {1, 2, 1, 1},
+    		{3}};
+    static int[][] Level2 = {
+    		{1, 3}, 
+            {1, 2, 1, 1},
+    		{3}};
+    
+    static int[][] Level22 = {
+    		{1, 3}, 
+            {1, 2, 1, 1},
+    		{3}};
+    
+    static int[][] Level3 = {
+    		{1, 3}, 
+            {1, 2, 1, 1},
+    		{3}};
+    
+    
     static int[][] customEnemyMap = {
-    		{1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // map is 20x15
-            {1, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    		{1,0}};
+    		{1, 3}, 
+            {1, 2, 1, 1},
+    		{3}};
     
     static int[][] customEnemyMap2 = {
-    		{1, 3,1,1,1,1,1,1,1,1, 0}, 
-            {1, 2, 1, 1, 0, 0},
-    		{1,0}};
+    		{1 }, 
+            {1, 2, 1, 1},
+    		{1,2,2}};
 
 
     public static void update()
@@ -150,15 +170,15 @@ public class StateManager
             break;
             
         case LEVEL1:
-        	gamestart(map1,10, 	19,4, customEnemyMap,"LEVEL1");
+        	gamestart(map1,10, 	19,4, Level1,"LEVEL1");
         	break;
         	
         case LEVEL2:
-        	gamestart(map2,20,	0,2,customEnemyMap2,	0,5,customEnemyMap,"LEVEL2");
+        	gamestart(map2,20,	0,2,Level2,	0,5,Level22,"LEVEL2");
         	break;
         	
         case LEVEL3:
-        	gamestart(map3,30,	0,2, customEnemyMap,"LEVEL3");
+        	gamestart(map3,30,	0,2, Level3,"LEVEL3");
         	break;
         	
         }

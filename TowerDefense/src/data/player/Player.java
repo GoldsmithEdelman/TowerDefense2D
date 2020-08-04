@@ -92,7 +92,7 @@ public class Player
         }
 
         _playerhealth -= _waveManager.getCurrentWave()
-            .getPlayerlife();
+            .getDamageToPlayer();
 
         // mouse input
         if (Mouse.isButtonDown(0) && !_leftMouseButtonDown)

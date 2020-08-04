@@ -11,63 +11,46 @@ public class Wave
     private float _spawnTime;
     private Enemy _enemyType;
     private ArrayList<Enemy> _enemyList;
-    private int _enemiesPerWave;
     private boolean _waveCompleted;
-    private int _playerlife;
-    private int _ausgleich;
+    private boolean _customWave = false;
+    private int _damageToPlayer;
     private ArrayList<Enemy> _enemyTypeList;
     private int[] _enemyIntList;
-    private int _customPointer;
-    private boolean _customWave = false;
+    private int _nummberOfEnemys;
+    private int _deadEnemys;
+    private int _EnemyNummber;
     
 
     public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave)
     {
-    	this._playerlife = 0;
+    	this._damageToPlayer = 0;
         this._enemyType = enemyType;
         this._spawnTime = spawnTime;
-        this._enemiesPerWave = enemiesPerWave;
+        this._nummberOfEnemys =  enemiesPerWave;
         this._timeSinceLastSpawn = 0;
         this._enemyList = new ArrayList<Enemy>();
         this._waveCompleted = false;
-        this._ausgleich = 0;
         spawn();
     }
     
+    
     public Wave(ArrayList<Enemy> enemyTypelist, float spawnTime, int[] enemyInt)
     {
-    	this._playerlife = 0;
+    	this._damageToPlayer = 0;
         this._enemyTypeList = enemyTypelist;
         this._spawnTime = spawnTime;
-        this._enemiesPerWave = 1;
         this._timeSinceLastSpawn = 0;
         this._enemyList = new ArrayList<Enemy>();
         this._waveCompleted = false;
-        this._ausgleich = 0;
         this._enemyIntList = enemyInt;
-        this._customPointer = 0;
         this._customWave = true;
+        this._nummberOfEnemys = enemyInt.length;
         spawn2();
     }
     
-    private void spawn2() {
-    	if(!(_enemyIntList[_customPointer]==0)) {
-    		_enemyType = _enemyTypeList.get(_enemyIntList[_customPointer]-1);
-    		_customPointer++;
-    		_enemiesPerWave++;
-    		spawn();
-    		
-    	} else {
-    		_ausgleich =_enemiesPerWave;
-    		
-    	}
-    }
-
-    public void update()
-    {
-        boolean enemiesDead = true;
-        if(_customWave) {
-        	if ((_enemyList.size()) < _enemiesPerWave)
+    private void spawnNewEnemy() {
+    	if(_customWave) {
+        	if (_EnemyNummber < _nummberOfEnemys)
             {
                 _timeSinceLastSpawn += delta();
                 if (_timeSinceLastSpawn > _spawnTime)
@@ -77,59 +60,99 @@ public class Wave
                 }
             }
         	
-        } else if (_enemyList.size()+_ausgleich < _enemiesPerWave)
-        {
+        } else if((_EnemyNummber < _nummberOfEnemys-1)&&!_customWave) {
             _timeSinceLastSpawn += delta();
             if (_timeSinceLastSpawn > _spawnTime)
             {
                 spawn();
                 _timeSinceLastSpawn = 0;
+                _EnemyNummber++;
             }
-        } else if (_customWave) {
-        	
-        }
-        for (int i = 0;  _enemyList.size()>i;i++)
-        {
-            if (_enemyList.get(i).isAlive())
-            {
-                enemiesDead = false;
-                _enemyList.get(i).update();
-                _enemyList.get(i).draw();
-                if(_enemyList.get(i).getPlayerDMG()) {
-                	_playerlife++;
-                }
-            } else if (!_enemyList.get(i).isAlive()){
-            	_enemyList.remove(_enemyList.get(i));
-            	_ausgleich++;
-            }
-        }
-        if (enemiesDead&&_enemyList.size() == 0 && (_ausgleich-_enemiesPerWave)==0 ) {
-        	_waveCompleted = true;
-        }
-        
-        //System.out.println(""+_enemyList.size()+enemiesDead+(_ausgleich)+"   "+_enemiesPerWave+"     "+_customPointer);
+        } 
     }
-
+    
     private void spawn()
     {
         _enemyList
             .add(new Enemy(_enemyType.getTexture(), _enemyType.getStartTile(),
                     _enemyType.getTileGrid(),_enemyType.getMenu(), 64, 64, _enemyType.getSpeed(), _enemyType.getHealth(), _enemyType.getreward()));
     }
+    
+    private void spawn2() {
+    	if(_EnemyNummber < _nummberOfEnemys) {
+    		System.out.println("_nummberOfEnemys:  "+_nummberOfEnemys);
+    		System.out.println("_EnemyNummber:  " + _EnemyNummber);
+    		System.out.println("_enemyIntList.length:  "+_enemyIntList.length);
+    		_enemyType = _enemyTypeList.get(_enemyIntList[_EnemyNummber]-1);
+    		System.out.println("W");
+    		_EnemyNummber++;
+    		spawn();
+    		
+    	} 
+    }
 
+    public void update()
+    {  	
+    	//erzeugt einen neuen Feind
+    	spawnNewEnemy();
+    	
+    	//Update Drawing/Status
+    	updateEnemysStatus();
+    	
+    	//Wave Zuende???
+    	if((_nummberOfEnemys == _deadEnemys)&&_customWave) {
+    		_waveCompleted = true;
+    	} else if(!_customWave && (_deadEnemys==_nummberOfEnemys)) {
+    		_waveCompleted = true;
+    	}
+//    	System.out.println(_nummberOfEnemys+ " dead  "+_deadEnemys);
+    	
+    }
+
+    
+    private void updateEnemysStatus() {
+      for (int i = 0;  _enemyList.size()>i;i++)
+      {
+          if (_enemyList.get(i).isAlive())
+          {
+              _enemyList.get(i).update();
+              _enemyList.get(i).draw();
+              if(_enemyList.get(i).getPlayerDMG()) {
+              	_damageToPlayer++;
+              }
+          } else if (!_enemyList.get(i).isAlive()){
+          	_enemyList.remove(_enemyList.get(i));
+          	_deadEnemys ++;
+          }
+      }
+	}
+
+
+	/**
+     * Gibt den Status der Wave wieder. True = Es gibt keine Feinde mehr die besiegt werden muessen
+     * @return boolean
+     */
     public boolean isWaveCompleted()
     {
         return _waveCompleted;
     }
 
+    /**
+     * Gibt eine ArrayList der Feinde wieder (Aktueller Sichtberreich der Tuerme)
+     * @return ArrayList<Enemy>
+     */
     public ArrayList<Enemy> getEnemies()
     {
         return _enemyList;
     }
     
-    public int getPlayerlife() {
-    	int x = _playerlife;
-    	_playerlife = 0;
+    /**
+     * Gibt an wie viel Leben der Spieler gerade verloren hat.
+     * @return int
+     */
+    public int getDamageToPlayer() {
+    	int x = _damageToPlayer;
+    	_damageToPlayer = 0;
     	return x;
     }
 }

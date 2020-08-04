@@ -163,6 +163,12 @@ public class Game
     public Game(int[][] map, int[][] wavemap, int x, int y, int[][] wavemap2,
             int x2, int y2, String s)
     {
+    	//Kopie von wavemap2 da die Static ist
+    	int[][] wavemap3 = wavemap2.clone();
+    	wavemap2 = wavemap3;
+    	
+    	wavemap3 = wavemap.clone();
+    	wavemap = wavemap3;
         _MaxWave = "" + wavemap.length;
         _shop = new Menu();
         _grid = new TileGrid(map);
@@ -170,7 +176,8 @@ public class Game
         ArrayList<Enemy> EnemyTypes1 = createEnemyTypes(x,y);
         //EnemyListe + Ort2
         ArrayList<Enemy> EnemyTypes2 = createEnemyTypes(x2,y2);
-
+        
+        //Eine Liste der Feine
         ArrayList<Enemy> EnemyTypes = new ArrayList<Enemy>();
         for (int i = 0; i < EnemyTypes1.size(); i++)
         {
@@ -180,31 +187,18 @@ public class Game
         {
             EnemyTypes.add(EnemyTypes2.get(i));
         }
+        
+        //Update der Nummer der Feinde in WaveMap2
+        for (int i = 0; i < wavemap2.length; i++) {
+			for (int j = 0; j < wavemap2[i].length; j++) {
+				wavemap2[i][j] = wavemap2[i][j] + EnemyTypes1.size();
+			}
+		}
 
-        int[][] wavemapzusammen = new int[wavemap.length][];
-        for (int i = 0; i < wavemap.length; i++)
-        {
-            wavemapzusammen[i] = new int[wavemap[i].length
-                    + wavemap2[i].length];
-            int k = 0;
-            for (int j = 0; j < wavemap[i].length; j = j + 2)
-            {
-                wavemapzusammen[i][j] = wavemap[i][k];
+        //Kombination
+        int[][] wavemapzusammen = waveMapCombine(wavemap, wavemap2);
+        System.out.println("W: "+ wavemapzusammen.length);
 
-                if (wavemap2[i].length + 1 > j)
-                {
-                    if (!(wavemap2[i][k] == 0))
-                        wavemapzusammen[i][j + 1] = wavemap2[i][k]
-                                + EnemyTypes1.size();
-                }
-                else
-                {
-                    wavemapzusammen[i][j + 1] = 0;
-                }
-                k++;
-
-            }
-        }
 
         _waveManager = new WaveManager(EnemyTypes, 1, wavemapzusammen);
 
@@ -212,6 +206,59 @@ public class Game
         _player = new Player(_grid, _waveManager, 2, _shop);
         createFond();
 
+    }
+    
+    private int[][] waveMapCombine(int[][] wavemap,int[][] wavemap2){
+    	int groeße = 0;
+    	if (wavemap.length==wavemap2.length) {
+    		groeße = wavemap.length;
+    	} else if(wavemap.length>=wavemap2.length) {
+    		int[][] neu = new int [wavemap.length][];
+    		for (int i = 0; i < wavemap2.length; i++) {
+    			neu[i] =  wavemap2[i];
+    			
+			}
+    		wavemap2 = neu;
+    		groeße = wavemap.length;
+    	} else {
+    		return waveMapCombine(wavemap2, wavemap);
+    	}
+    	 int[][] wavemapzusammen = new int[groeße][];
+    	 for (int i = 0; i < wavemapzusammen.length; i++) {
+    		 wavemapzusammen[i] = combine(wavemap[i], wavemap2[i]);
+		}
+    	 return wavemapzusammen;
+    	
+    }
+    
+    private int[] combine(int[] wavemap, int[] wavemap2) {
+    	int laenge1 = 0;
+    	int laenge2 = 0;
+    	if(wavemap!=null) {
+    		laenge1 =wavemap.length;
+    	}
+    	if(wavemap2!=null) {
+    		laenge2 =wavemap2.length;
+    	}
+    	
+    	int groeße = laenge1+ laenge2;
+    	int [] newWavemap = new int[groeße];
+    	int z1 = 0;
+    	int z2 = 0;
+    	if(laenge2>laenge1) {
+    		return combine(wavemap2, wavemap);
+    	}
+    	// wavemap>wavemap2
+    	for (int i = 0; i < newWavemap.length; i++) {
+			if(i%2==1 && z1< laenge2) {
+				newWavemap[i] = wavemap2[z1];
+				z1++;
+			} else {
+				newWavemap[i] = wavemap[z2];
+				z2++;
+			}
+		}
+    	return newWavemap;
     }
     
     private ArrayList<Enemy> createEnemyTypes(int x, int y) {
@@ -235,6 +282,7 @@ public class Game
      */
     public void update()
     {
+    	System.out.println("Run");
 
         // order is important; grid first then towers on top
         if (_player.getPlayerhealth() > 0)
