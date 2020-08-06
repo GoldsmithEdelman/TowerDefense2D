@@ -50,7 +50,6 @@ public class Menu
         case "third":
             _texture = quickLoadPngTexture("Turm3");
             _kosten = _thirdkosten;
-            System.out.println(_thirdkosten);
             break;
         case "delete":
             _texture = quickLoadPngTexture("Loeschen");

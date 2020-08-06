@@ -57,7 +57,6 @@ public class Bank implements TowerBase  {
         		_allenemies.add(e);
         	}
         }
-        System.out.println(_allenemies.size());
         for (int i = 0; i < _allenemies.size(); i++) {
         	Enemy enemy = _allenemies.get(i);
         	if (!enemy.isAlive()) {

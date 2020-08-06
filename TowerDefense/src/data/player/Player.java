@@ -371,7 +371,6 @@ public class Player
                 		break;
                 	}
 				}
-                System.out.println("Test");
                 break;
             }
         }
