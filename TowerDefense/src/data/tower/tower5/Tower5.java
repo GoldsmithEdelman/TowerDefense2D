@@ -1,4 +1,4 @@
-package data.tower.tower2;
+package data.tower.tower5;
 
 import static helpers.Artist.drawRectangleRotatedTexture;
 import static helpers.Artist.drawRectangleTexture;
@@ -13,8 +13,10 @@ import data.enemy.Enemy;
 import data.field.Tile;
 import data.startup.Game;
 import data.tower.TowerBase;
+import data.tower.tower1.Projectile;
+import data.tower.tower2.Projectile2;
 
-public class FreezeTower implements TowerBase {
+public class Tower5 implements TowerBase{
 
 	private float _range;
     private float _x;
@@ -27,7 +29,7 @@ public class FreezeTower implements TowerBase {
     private Texture _baseTexture;
     private Texture _cannonTexture;
     private Tile _startTile;
-    private ArrayList<Projectile2> _projectiles;
+    private ArrayList<Projectile> _projectiles;
     private ArrayList<Enemy> _enemies;
     private Enemy _target;
     private float _angle;
@@ -38,12 +40,12 @@ public class FreezeTower implements TowerBase {
     private Texture _normalTexture;
     private Texture _crazyTexture;
 	
-	public FreezeTower(Texture baseTexture,Texture crazyTexture, Tile startTile, int damage, int range, ArrayList<Enemy> enemies) {
+	public Tower5(Texture baseTexture,Texture crazyTexture, Tile startTile, int damage, int range, ArrayList<Enemy> enemies) {
 		this._normalTexture = baseTexture;
 		this._crazyTexture = crazyTexture;
 		this._range = range;
         this._baseTexture = baseTexture;
-        this._cannonTexture = quickLoadPngTexture("Towergun");
+        this._cannonTexture = quickLoadPngTexture("cannongun");
         this._startTile = startTile;
         this._x = startTile.getX();
         this._y = startTile.getY();
@@ -52,7 +54,7 @@ public class FreezeTower implements TowerBase {
         this._damage = damage;
         this._firingSpeed = (float) 3;
         this._timeSinceLastShot = 0;
-        this._projectiles = new ArrayList<Projectile2>();
+        this._projectiles = new ArrayList<Projectile>();
         this._enemies = enemies;
         this._target = getTarget();
         this._angle = getAngle();
@@ -105,8 +107,10 @@ public class FreezeTower implements TowerBase {
     private void shoot()
     {
     	if(_target != null) {
-        _projectiles.add(new Projectile2(quickLoadPngTexture("Ball"),_target, _x + Game.TILE_SIZE/2 - Game.TILE_SIZE/4,
-                _y + Game.TILE_SIZE/2 - Game.TILE_SIZE/4,32,32, 900, _damage));
+        _projectiles.add(new Projectile(quickLoadPngTexture("pokeball"),
+                _target, _x + Game.TILE_SIZE / 2 - Game.TILE_SIZE / 4,
+                _y + Game.TILE_SIZE / 2 - Game.TILE_SIZE / 4, 32, 32, 900,
+                10));
         _timeSinceLastShot = 0;
     	}
     }

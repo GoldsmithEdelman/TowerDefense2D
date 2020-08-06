@@ -73,7 +73,7 @@ public class TileGrid
             
             	case 5:
             		_map[i][j] = new Tile(i * 64, j * 64, 64, 64,
-            				TileType.EXIT);
+            				TileType.RED);
             		break;
                 }
                 

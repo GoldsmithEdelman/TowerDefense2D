@@ -31,16 +31,19 @@ public class Enemy
     private TileGrid _grid;
     private boolean _first = true; //temporary fix for clock settings
     private boolean _alive = true;
-    private boolean _playerdmg = false;
+    private boolean _playerdmgcheck = false;
     private Menu _menu;
     private int _reward;
-
+    private int _dmgtoplayer;
     private ArrayList<CheckPoint> _checkpoints;
     private int[] _directions;
+    private boolean _canbeslowed;
 
     public Enemy(Texture texture, Tile startTile, TileGrid grid, Menu menu,int width,
-            int height, float speed, int health, int reward)
+            int height, float speed, int health, int reward, int dmgtoplayer, boolean canbeslowed)
     {
+    	this._canbeslowed = canbeslowed;
+    	this._dmgtoplayer = dmgtoplayer;
     	this._reward = reward;
     	this._menu = menu;
         this._texture = texture;
@@ -75,7 +78,7 @@ public class Enemy
                 	
                 
                     death();
-                    _playerdmg = true;
+                    _playerdmgcheck = true;
                 }
                 else
                     _currentCheckpoint++; //if check point reached move to the next one
@@ -297,7 +300,9 @@ public class Enemy
 
     public void setSpeed(float speed)
     {
-        this._speed = speed;
+    	if(_canbeslowed) {
+    		this._speed = speed;
+    	}
     }
 
     public Texture getTexture()
@@ -347,8 +352,12 @@ public class Enemy
     	}
     }
     
-    public boolean getPlayerDMG() {
-    	return _playerdmg;
+    public boolean getPlayerDMGCheck() {
+    	return _playerdmgcheck;
+    }
+    
+    public int getDMG() {
+    	return _dmgtoplayer;
     }
     
     public int getreward(){
@@ -357,5 +366,9 @@ public class Enemy
     
     public Menu getMenu() {
     	return _menu;
+    }
+    
+    public boolean getCanBeSlowed() {
+    	return _canbeslowed;
     }
 }

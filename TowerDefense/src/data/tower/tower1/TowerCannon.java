@@ -31,11 +31,19 @@ public class TowerCannon implements TowerBase
     private Enemy _target;
     private float _angle;
     private boolean _targeted;
+    private int _damageNormal;
+    private float _firingSpeedNormal;
+    private float _rangeNormal;
+    private Texture _normalTexture;
+    private Texture _crazyTexture;
+    
 
-    public TowerCannon(Texture baseTexture, Tile startTile, int damage,
+    public TowerCannon(Texture baseTexture,Texture crazyTexture, Tile startTile, int damage,
             int range, ArrayList<Enemy> enemies)
     {
-        this._range = range;
+		this._normalTexture = baseTexture;
+		this._crazyTexture = crazyTexture;
+    	this._range = range;
         this._baseTexture = baseTexture;
         this._cannonTexture = quickLoadPngTexture("cannongun");
         this._startTile = startTile;
@@ -51,6 +59,9 @@ public class TowerCannon implements TowerBase
         this._target = getTarget();
         this._angle = getAngle();
         this._targeted = false;
+        this._damageNormal = _damage;
+        this._rangeNormal = _range;
+        this._firingSpeedNormal = _firingSpeed;
     }
 
     private Enemy getTarget()
@@ -169,4 +180,19 @@ public class TowerCannon implements TowerBase
     {
         return _y;
     }
+
+	@Override
+	public void crazyMode(boolean mode) {
+		if(mode) {
+			_firingSpeed = _firingSpeedNormal-2;
+			_range = _rangeNormal*2;
+			_damage = _damageNormal*2;
+			_baseTexture = _crazyTexture;
+		} else  {
+			_damage = _damageNormal;
+			_range = _rangeNormal;
+			_firingSpeed = _firingSpeedNormal;
+			_baseTexture = _normalTexture;
+		}
+	}
 }

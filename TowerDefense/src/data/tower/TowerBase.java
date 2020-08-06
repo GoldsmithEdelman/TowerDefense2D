@@ -33,4 +33,6 @@ public interface TowerBase {
 	 * @return
 	 */
 	public float getY();
+	
+	public void crazyMode(boolean mode);
 }

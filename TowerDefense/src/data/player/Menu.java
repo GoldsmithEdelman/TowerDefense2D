@@ -18,6 +18,8 @@ public class Menu
     int _kosten;
     int _thirdkosten;
     TrueTypeFont _font;
+    String _auswahl;
+    
 
     public Menu()
     {
@@ -29,37 +31,51 @@ public class Menu
         _money = 1000;
         _kosten = 10;
         _thirdkosten= 100;
+        _auswahl = "first";
     }
 
-    public void setPointer(int i)
+    public void setPointer(String auswahl)
     {
-        _pointer = i;
-        switch (i)
+    	_auswahl = auswahl;
+        switch (_auswahl)
         {
-        case 1:
+        case "first":
             _texture = quickLoadPngTexture("labyr");
             _kosten = 10;
             break;
-        case 2:
+        case "second":
             _texture = quickLoadPngTexture("Tower2");
             _kosten = 100;
             break;
-        case 3:
+        case "third":
             _texture = quickLoadPngTexture("Turm3");
             _kosten = _thirdkosten;
             System.out.println(_thirdkosten);
             break;
-        case 10:
+        case "delete":
             _texture = quickLoadPngTexture("Loeschen");
             _kosten = 0;
             break;
+        case "bank":
+            _texture = quickLoadPngTexture("bank");
+            _kosten = 100;
+            break;
+        case "crazy":
+        	_texture = quickLoadPngTexture("crazymenu");
+        	_kosten = 200;
+        	break;
+        case "tower5":
+            _texture = quickLoadPngTexture("tower4");
+            _kosten = 50;
+            break;
+        	
         }
 
     }
 
-    public int getPointer()
+    public String getPointer()
     {
-        return _pointer;
+        return _auswahl;
     }
 
     public void update()
@@ -104,5 +120,9 @@ public class Menu
     public void updateThirdMoney(int thirdkosten) {
     	_thirdkosten = thirdkosten;
     	_kosten = thirdkosten;
+    }
+    
+    public int getkosten() {
+    	return _kosten;
     }
 }

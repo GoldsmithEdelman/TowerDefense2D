@@ -161,6 +161,7 @@ public class EditorActionListner {
     	setTile(TileType.Dirt ,1,0);
     	setTile(TileType.SPAWN ,2,0);
     	setTile(TileType.Water ,3,0);
+    	setTile(TileType.RED ,4,0);
     	setTile(TileType.Save ,_grid.getTilesWidth()-2,0);
     	setTile(TileType.EXIT ,_grid.getTilesWidth()-1,0);
     }

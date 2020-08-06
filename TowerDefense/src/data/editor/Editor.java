@@ -75,6 +75,9 @@ public class Editor {
 								case "Dirt":
 									map[i+1][j] =    2;
 									break;
+								case "RED":
+									map[i+1][j] =    5;
+									break;
 
 								default:
 									break;

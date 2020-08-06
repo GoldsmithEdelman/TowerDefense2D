@@ -75,7 +75,7 @@ public class Wave
     {
         _enemyList
             .add(new Enemy(_enemyType.getTexture(), _enemyType.getStartTile(),
-                    _enemyType.getTileGrid(),_enemyType.getMenu(), 64, 64, _enemyType.getSpeed(), _enemyType.getHealth(), _enemyType.getreward()));
+                    _enemyType.getTileGrid(),_enemyType.getMenu(), 64, 64, _enemyType.getSpeed(), _enemyType.getHealth(), _enemyType.getreward(), _enemyType.getDMG(),_enemyType.getCanBeSlowed()));
     }
     
     private void spawn2() {
@@ -117,8 +117,8 @@ public class Wave
           {
               _enemyList.get(i).update();
               _enemyList.get(i).draw();
-              if(_enemyList.get(i).getPlayerDMG()) {
-              	_damageToPlayer++;
+              if(_enemyList.get(i).getPlayerDMGCheck()) {
+              	_damageToPlayer = _enemyList.get(i).getDMG();
               }
           } else if (!_enemyList.get(i).isAlive()){
           	_enemyList.remove(_enemyList.get(i));

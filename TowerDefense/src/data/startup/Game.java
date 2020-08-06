@@ -48,7 +48,7 @@ public class Game
         //Lädt die Editor-Karte
         loadEditorMap(map);
         _waveManager = new WaveManager(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(spawnX, spawnY), _grid, _shop, 64, 64, 200, 25, 10), 2, 2);
+                _grid.getTile(spawnX, spawnY), _grid, _shop, 64, 64, 200, 25, 10,1,true), 2, 2);
         _player = new Player(_grid, _waveManager, 1, _shop);
         _MaxWave = "?";
         createFond();
@@ -74,11 +74,9 @@ public class Game
     					String[] parts = str.split("-");
     					table.add(parts);
     				}
-    				System.out.println(_grid.getTilesHeight()+" test");
     				if(table.size() == _grid.getTilesHeight()||table.get(0).length == _grid.getTilesWidth()) {
     					for (int i = 0; i < table.size(); i++) {
 							for (int j = 0; j < table.get(i).length; j++) {
-								System.out.println(i +"/"+ j);
 								switch (table.get(i)[j]) {
 								case "Grass":
 									map[i+1][j] =    0;
@@ -93,6 +91,9 @@ public class Game
 									break;
 								case "Dirt":
 									map[i+1][j] =    2;
+									break;
+								case "RED":
+									map[i+1][j] =    5;
 									break;
 
 								default:
@@ -137,7 +138,7 @@ public class Game
      * @param y
      * @param s
      */
-    public Game(int[][] map, int[][] wavemap, int x, int y, String s)
+    public Game(int[][] map, int[][] wavemap, int x, int y, String s, int playerhealt)
     {
         _MaxWave = "" + wavemap.length;
         _shop = new Menu();
@@ -145,7 +146,7 @@ public class Game
         ArrayList<Enemy> EnemyTypes = createEnemyTypes(x,y);
         _waveManager = new WaveManager(EnemyTypes, 2, wavemap);
         _LevelName = s;
-        _player = new Player(_grid, _waveManager, 2, _shop);
+        _player = new Player(_grid, _waveManager, playerhealt, _shop);
         createFond();
     }
     
@@ -161,7 +162,7 @@ public class Game
      * @param s
      */
     public Game(int[][] map, int[][] wavemap, int x, int y, int[][] wavemap2,
-            int x2, int y2, String s)
+            int x2, int y2, String s, int playerhealt)
     {
     	//Kopie von wavemap2 da die Static ist
     	int[][] wavemap3 = wavemap2.clone();
@@ -197,13 +198,12 @@ public class Game
 
         //Kombination
         int[][] wavemapzusammen = waveMapCombine(wavemap, wavemap2);
-        System.out.println("W: "+ wavemapzusammen.length);
 
 
         _waveManager = new WaveManager(EnemyTypes, 1, wavemapzusammen);
 
         _LevelName = s;
-        _player = new Player(_grid, _waveManager, 2, _shop);
+        _player = new Player(_grid, _waveManager, playerhealt, _shop);
         createFond();
 
     }
@@ -264,11 +264,13 @@ public class Game
     private ArrayList<Enemy> createEnemyTypes(int x, int y) {
     	ArrayList<Enemy> EnemyTypes1 = new ArrayList<Enemy>();
         EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x, y), _grid, _shop, 64, 64, 100, 25, 10));
+                _grid.getTile(x, y), _grid, _shop, 64, 64, 100, 25, 10,1,true));
         EnemyTypes1.add(new Enemy(quickLoadPngTexture("enemy1"),
-                _grid.getTile(x, y), _grid, _shop, 64, 64, 200, 25, 10));
+                _grid.getTile(x, y), _grid, _shop, 64, 64, 200, 25, 10,1,true));
         EnemyTypes1.add(new Enemy(quickLoadPngTexture("gegner"),
-                _grid.getTile(x, y), _grid, _shop, 64, 64, 200, 1000, 100));
+                _grid.getTile(x, y), _grid, _shop, 64, 64, 200, 300, 100,3,true));
+        EnemyTypes1.add(new Enemy(quickLoadPngTexture("shieldenemy"),
+                _grid.getTile(x, y), _grid, _shop, 64, 64, 200, 1000, 100,0,false));
         return EnemyTypes1;
     }
     
@@ -282,7 +284,6 @@ public class Game
      */
     public void update()
     {
-    	System.out.println("Run");
 
         // order is important; grid first then towers on top
         if (_player.getPlayerhealth() > 0)

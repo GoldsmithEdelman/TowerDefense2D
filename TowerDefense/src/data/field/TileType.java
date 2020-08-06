@@ -5,7 +5,9 @@ public enum TileType
 {
     // actual tile types, framework for tiles, different keys/atributes can be added to a tile(like enemies can go over it, can projectiles go through) - buildable and texture for now
     Grass("grass", true), Water("water", false), Dirt("dirt",
-            true),Menu("Menu", true), NULL("water", false),SPAWN("spawn", false),EXIT("exit", false), EditorBar("menubar", false), Save("save", false), EditorAusgewahlt("ausgewaehlt", false); 
+            true),Menu("Menu", true), NULL("water", false),SPAWN("spawn", false),
+    EXIT("exit", false), EditorBar("menubar", false), Save("save", false), EditorAusgewahlt("ausgewaehlt", false),
+    RED("redstone", true),CRAZYMENU("crazymenu", false),CRAZY("crazy", true); 
 
     String _textureName;
     boolean _buildable; //wheter tower can be buil on it
