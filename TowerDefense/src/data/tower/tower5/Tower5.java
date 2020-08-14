@@ -14,7 +14,6 @@ import data.field.Tile;
 import data.startup.Game;
 import data.tower.TowerBase;
 import data.tower.tower1.Projectile;
-import data.tower.tower2.Projectile2;
 
 public class Tower5 implements TowerBase
 {

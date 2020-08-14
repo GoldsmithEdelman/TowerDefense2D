@@ -101,6 +101,7 @@ public class ThirdTower implements TowerBase
         return x + y;
     }
 
+    @SuppressWarnings("unused")
     private float getAngle()
     {
         if (_target != null)

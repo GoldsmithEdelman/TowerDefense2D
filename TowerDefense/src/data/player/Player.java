@@ -323,6 +323,7 @@ public class Player
         }
     }
 
+    @SuppressWarnings("unused")
     private void moveIndex()
     {
         _index++;
