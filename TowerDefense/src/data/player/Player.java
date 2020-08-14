@@ -17,7 +17,6 @@ import helpers.Clock;
 import static helpers.Artist.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Player
 {
@@ -32,9 +31,10 @@ public class Player
     private int thirdcost;
     private ArrayList<CrazyMode> _crazyList;
     private boolean _pause = true;
+
     public Player(TileGrid grid, WaveManager waveManager, int health, Menu menu)
     {
-    	_crazyList = new ArrayList<CrazyMode>();
+        _crazyList = new ArrayList<CrazyMode>();
         _playerhealth = health;
         this._grid = grid;
         this._types = new TileType[4];
@@ -88,8 +88,8 @@ public class Player
      */
 
     public void update()
-    {	
-    	//function/drawing of Towers
+    {
+        //function/drawing of Towers
         for (TowerBase tower : _towerList)
         {
             tower.update();
@@ -104,29 +104,34 @@ public class Player
         mouseInput();
 
         keyBoardInput();
-        
+
     }
 
-    private void drawCrazyMode() {
-		for (CrazyMode e: _crazyList) {
-			setTile(TileType.CRAZY ,e.getX(),e.getY());
-		}
-		
-	}
-    public void setTile(TileType type, int x, int y) {
-        _grid.setTile((int) Math.floor(x),
-                (int) Math.floor(y),
-                type);
+    @SuppressWarnings("unused")
+    private void drawCrazyMode()
+    {
+        for (CrazyMode e : _crazyList)
+        {
+            setTile(TileType.CRAZY, e.getX(), e.getY());
+        }
+
     }
 
-	private void mouseInput() {
+    public void setTile(TileType type, int x, int y)
+    {
+        _grid.setTile((int) Math.floor(x), (int) Math.floor(y), type);
+    }
+
+    private void mouseInput()
+    {
         if (Mouse.isButtonDown(0) && !_leftMouseButtonDown)
         {
             int x = (int) Math.floor(Mouse.getX()) / 64;
             int y = (int) Math.floor((HEIGHT - Mouse.getY() - 1)) / 64;
             if (_grid.getTileType(x, y)
-                .equals(TileType.Grass)||_grid.getTileType(x, y)
-                .equals(TileType.RED))
+                .equals(TileType.Grass)
+                    || _grid.getTileType(x, y)
+                        .equals(TileType.RED))
             {
                 String t1 = _menu.getPointer();
                 if (!isTaken(x * 64, y * 64))
@@ -148,21 +153,23 @@ public class Player
                         }
                         break;
                     case "third":
-                    	 if (_menu.getmoney() >= thirdcost && _grid.getTileType(x, y)
-                                 .equals(TileType.RED))
-                         {
-                    		 addThirdTower();
-                             _menu.submoney(thirdcost);
-                             thirdcost = (int) (thirdcost * 3);
-                             _menu.updateThirdMoney(thirdcost);
-                         }
-                    	 break;
+                        if (_menu.getmoney() >= thirdcost
+                                && _grid.getTileType(x, y)
+                                    .equals(TileType.RED))
+                        {
+                            addThirdTower();
+                            _menu.submoney(thirdcost);
+                            thirdcost = (int) (thirdcost * 3);
+                            _menu.updateThirdMoney(thirdcost);
+                        }
+                        break;
                     case "bank":
-                    	if(_menu.getmoney() >= _menu.getkosten()) {
-                    		addBank();
-                    		_menu.submoney(_menu.getkosten());
-                    	}
-                    	break;
+                        if (_menu.getmoney() >= _menu.getkosten())
+                        {
+                            addBank();
+                            _menu.submoney(_menu.getkosten());
+                        }
+                        break;
                     case "tower5":
                         if (_menu.getmoney() >= _menu.getkosten())
                         {
@@ -171,7 +178,7 @@ public class Player
                         }
                         break;
                     }
-                    
+
                 }
                 else if (isTaken(x * 64, y * 64))
                 {
@@ -181,49 +188,61 @@ public class Player
                         deleteTower(x, y);
                         break;
                     case "crazy":
-                    	if(!carzyModeCheck(x, y)&& _menu.getmoney() >= _menu.getkosten()) {
-                    		crazyMode(x,y);
-                    		_menu.submoney(_menu.getkosten());
-                    	}
-                    	break;
+                        if (!carzyModeCheck(x, y)
+                                && _menu.getmoney() >= _menu.getkosten())
+                        {
+                            crazyMode(x, y);
+                            _menu.submoney(_menu.getkosten());
+                        }
+                        break;
                     }
                 }
             }
         }
         _leftMouseButtonDown = Mouse.isButtonDown(0);
     }
-    
-    private void crazyMode(int x, int y) {
+
+    private void crazyMode(int x, int y)
+    {
         for (int i = 0; i < _towerList.size(); i++)
         {
             TowerBase tower = _towerList.get(i);
             if (tower.getX() == (x * 64) && tower.getY() == (y * 64))
             {
-                _towerList.get(i).crazyMode(true);
+                _towerList.get(i)
+                    .crazyMode(true);
                 _crazyList.add(new CrazyMode(x, y));
                 break;
             }
         }
-	}
-    
-    private boolean carzyModeCheck(int x,int y) {
-    	for (int i = 0; i < _crazyList.size(); i++) {
-    		if(_crazyList.get(i).getX() == x && _crazyList.get(i).getY() == y) {
-    			return true;
-    		}
-		}
-    	return false;
     }
 
-	private void keyBoardInput() {
+    private boolean carzyModeCheck(int x, int y)
+    {
+        for (int i = 0; i < _crazyList.size(); i++)
+        {
+            if (_crazyList.get(i)
+                .getX() == x
+                    && _crazyList.get(i)
+                        .getY() == y)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void keyBoardInput()
+    {
         while (Keyboard.next())
         {
-        	specialKeyBoardInput();
-        	normalKeyBoardInput();
+            specialKeyBoardInput();
+            normalKeyBoardInput();
         }
     }
-    
-    private void specialKeyBoardInput(){
+
+    private void specialKeyBoardInput()
+    {
         if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT
                 && Keyboard.getEventKeyState()) //Keyboard.getEventKeyState() gives one per press
         {
@@ -254,58 +273,56 @@ public class Player
         if (Keyboard.getEventKey() == Keyboard.KEY_SPACE
                 && Keyboard.getEventKeyState()) //Keyboard.getEventKeyState() gives one per press
         {
-            if(_pause) {
-            	Clock.stop();
-            	_pause = false;
-            } else {
-            	Clock.resume();
-            	_pause = true;
+            if (_pause)
+            {
+                Clock.stop();
+                _pause = false;
+            }
+            else
+            {
+                Clock.resume();
+                _pause = true;
             }
         }
-        //Zum Test
-        if (Keyboard.getEventKey() == Keyboard.KEY_T
-                && Keyboard.getEventKeyState())
-        {
-            setTile();
-        }
+
     }
-    
+
     //number Input
-    private void normalKeyBoardInput() {
+    private void normalKeyBoardInput()
+    {
         //TowerCannon
         if (Keyboard.getEventKey() == Keyboard.KEY_1)
         {
             _menu.setPointer("first");
         }
-        //???Tower
-         if (Keyboard.getEventKey() == Keyboard.KEY_2)
+        if (Keyboard.getEventKey() == Keyboard.KEY_2)
         {
             _menu.setPointer("second");
         }
-         if (Keyboard.getEventKey() == Keyboard.KEY_3)
+        if (Keyboard.getEventKey() == Keyboard.KEY_3)
         {
             _menu.setPointer("third");
         }
-         if (Keyboard.getEventKey() == Keyboard.KEY_4)
+        if (Keyboard.getEventKey() == Keyboard.KEY_4)
         {
             _menu.setPointer("bank");
         }
-         if (Keyboard.getEventKey() == Keyboard.KEY_5)
+        if (Keyboard.getEventKey() == Keyboard.KEY_5)
         {
             _menu.setPointer("tower5");
         }
         //DeleteTower
-         if (Keyboard.getEventKey() == Keyboard.KEY_0)
+        if (Keyboard.getEventKey() == Keyboard.KEY_0)
         {
             _menu.setPointer("delete");
         }
-         
-         if (Keyboard.getEventKey() == Keyboard.KEY_9)
+
+        if (Keyboard.getEventKey() == Keyboard.KEY_9)
         {
             _menu.setPointer("crazy");
         }
     }
-    
+
     private void moveIndex()
     {
         _index++;
@@ -317,7 +334,8 @@ public class Player
 
     private void addCannon()
     {
-        _towerList.add(new TowerCannon(quickLoadPngTexture("labyr"),quickLoadPngTexture("ctower1"),
+        _towerList.add(new TowerCannon(quickLoadPngTexture("labyr"),
+                quickLoadPngTexture("ctower1"),
                 _grid.getTile(Mouse.getX() / 64,
                         (HEIGHT - Mouse.getY() - 1) / 64),
                 10, 1000, _waveManager.getCurrentWave()
@@ -326,31 +344,39 @@ public class Player
 
     private void addFrezeCannon()
     {
-        _towerList.add(new FreezeTower(quickLoadPngTexture("Tower2"),quickLoadPngTexture("ctower2"),
+        _towerList.add(new FreezeTower(quickLoadPngTexture("Tower2"),
+                quickLoadPngTexture("ctower2"),
                 _grid.getTile(Mouse.getX() / 64,
                         (HEIGHT - Mouse.getY() - 1) / 64),
                 0, 64 * 3, _waveManager.getCurrentWave()
                     .getEnemies()));
     }
-    
+
     private void addThirdTower()
     {
-        _towerList.add(new ThirdTower(quickLoadPngTexture("Turm3"),quickLoadPngTexture("ctower3"),
+        _towerList.add(new ThirdTower(quickLoadPngTexture("Turm3"),
+                quickLoadPngTexture("ctower3"),
                 _grid.getTile(Mouse.getX() / 64,
                         (HEIGHT - Mouse.getY() - 1) / 64),
                 100, 64 * 20, _waveManager.getCurrentWave()
                     .getEnemies()));
     }
-    
-    private void addBank() {
-    	_towerList.add(new Bank(quickLoadPngTexture("bank"),quickLoadPngTexture("ctower4"),  _grid.getTile(Mouse.getX() / 64,
-                (HEIGHT - Mouse.getY() - 1) / 64), 1,  _waveManager.getCurrentWave()
-                .getEnemies(), _menu));
+
+    private void addBank()
+    {
+        _towerList.add(new Bank(quickLoadPngTexture("bank"),
+                quickLoadPngTexture("ctower4"),
+                _grid.getTile(Mouse.getX() / 64,
+                        (HEIGHT - Mouse.getY() - 1) / 64),
+                1, _waveManager.getCurrentWave()
+                    .getEnemies(),
+                _menu));
     }
-    
+
     private void addtower5()
     {
-        _towerList.add(new Tower5(quickLoadPngTexture("tower4"),quickLoadPngTexture("ctower5"),
+        _towerList.add(new Tower5(quickLoadPngTexture("tower4"),
+                quickLoadPngTexture("ctower5"),
                 _grid.getTile(Mouse.getX() / 64,
                         (HEIGHT - Mouse.getY() - 1) / 64),
                 12, 64 * 5, _waveManager.getCurrentWave()
@@ -365,12 +391,14 @@ public class Player
             if (tower.getX() == (x * 64) && tower.getY() == (y * 64))
             {
                 _towerList.remove(i);
-                for (CrazyMode c: _crazyList) {
-                	if (c.getX()==x&&c.getY()==y) {
-                		_crazyList.remove(c);
-                		break;
-                	}
-				}
+                for (CrazyMode c : _crazyList)
+                {
+                    if (c.getX() == x && c.getY() == y)
+                    {
+                        _crazyList.remove(c);
+                        break;
+                    }
+                }
                 break;
             }
         }

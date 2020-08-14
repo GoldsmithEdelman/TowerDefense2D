@@ -1,13 +1,7 @@
 package data.field;
 
-import static helpers.Artist.*;
-
 /**
- * 
- * base for a rudimentary tile editor
- * 
- * @author 
- *
+ * Base for a rudimentary tile editor
  */
 
 public class TileGrid
@@ -34,7 +28,7 @@ public class TileGrid
     }
 
     /**
-     * allows adding multiple tile types via switch
+     * Allows adding multiple tile types via switch
      * @param newMap
      */
 
@@ -65,18 +59,17 @@ public class TileGrid
                     _map[i][j] = new Tile(i * 64, j * 64, 64, 64,
                             TileType.Menu);
                     break;
-                
-            	case 4:
-            		_map[i][j] = new Tile(i * 64, j * 64, 64, 64,
-                        TileType.SPAWN);
-            		break;
-            
-            	case 5:
-            		_map[i][j] = new Tile(i * 64, j * 64, 64, 64,
-            				TileType.RED);
-            		break;
+
+                case 4:
+                    _map[i][j] = new Tile(i * 64, j * 64, 64, 64,
+                            TileType.SPAWN);
+                    break;
+
+                case 5:
+                    _map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.RED);
+                    break;
                 }
-                
+
             }
         }
     }
@@ -117,11 +110,12 @@ public class TileGrid
 
     public TileType getTileType(int xTile, int yTile)
     {
-    	System.out.println(xTile);
+        System.out.println(xTile);
         if (xTile < _tilesWidth && yTile < _tilesHeight && xTile > -1
-                && yTile > -1) {
-        	return _map[xTile][yTile].getType();
-        	
+                && yTile > -1)
+        {
+            return _map[xTile][yTile].getType();
+
         }
         else
             return new Tile(0, 0, 0, 0, TileType.NULL).getType();

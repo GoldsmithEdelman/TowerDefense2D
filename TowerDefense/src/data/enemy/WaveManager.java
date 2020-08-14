@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class WaveManager
 {
+    @SuppressWarnings("unused")
     private float _timeSinceLastWave;
     private float _timeBetweenEnemies;
     private int _waveNumber;
@@ -15,7 +16,7 @@ public class WaveManager
     private int[][] _WaveIntList;
     private int _nummerDerAktuellenWave;
     private boolean _customWave = false;
-    
+
     //Normale Endlose Wave
     public WaveManager(Enemy enemyType, float timeBetweenEnemies,
             int enemiesPerWave)
@@ -28,7 +29,7 @@ public class WaveManager
         this._currentWave = null;
         newWave();
     }
-    
+
     //Normale Wave
     public WaveManager(Enemy enemyType, float timeBetweenEnemies,
             int enemiesPerWave, int maxwave)
@@ -42,13 +43,13 @@ public class WaveManager
         this._currentWave = null;
         newWave();
     }
-    
+
     //Custom Wave
     public WaveManager(ArrayList<Enemy> enemyTypeList, float timeBetweenEnemies,
             int[][] enemiesPerWaveList)
     {
-    	this._customWave = true;
-    	this._nummerDerAktuellenWave = 0;
+        this._customWave = true;
+        this._nummerDerAktuellenWave = 0;
         this._enemyTypeList = enemyTypeList;
         this._timeBetweenEnemies = timeBetweenEnemies;
         this._WaveIntList = enemiesPerWaveList;
@@ -64,26 +65,26 @@ public class WaveManager
      */
     public void update()
     {
-    	if (_maxwave == -10 || _maxwave>=0) {
-            if (!_currentWave.isWaveCompleted()) {
+        if (_maxwave == -10 || _maxwave >= 0)
+        {
+            if (!_currentWave.isWaveCompleted())
+            {
                 _currentWave.update();
             }
-            else if (_customWave){
-            	if(_maxwave>0) {
-                	newWave2();
-                	if(!(_maxwave==-10))
-                	_maxwave--;
-            	}
+            else if (_customWave)
+            {
+                if (_maxwave > 0)
+                {
+                    newWave2();
+                    if (!(_maxwave == -10)) _maxwave--;
+                }
             }
-            else{
-            	newWave();
-            	if(!(_maxwave==-10))
-            	_maxwave--;
+            else
+            {
+                newWave();
+                if (!(_maxwave == -10)) _maxwave--;
             }
-    	}
-    
-            // System.out.println("Wave is over");
-            
+        }
     }
 
     /**
@@ -91,13 +92,13 @@ public class WaveManager
      */
     public void newWave2()
     {
-    	//
-    	if(_nummerDerAktuellenWave<_WaveIntList.length) {
-        	int[] waveList = _WaveIntList[_nummerDerAktuellenWave];
+        //
+        if (_nummerDerAktuellenWave < _WaveIntList.length)
+        {
+            int[] waveList = _WaveIntList[_nummerDerAktuellenWave];
             _currentWave = new Wave(_enemyTypeList, _timeBetweenEnemies,
-            		waveList);
-    	}
-
+                    waveList);
+        }
 
         _timeBetweenEnemies = _timeBetweenEnemies * 0.9f;
         _waveNumber++;
@@ -105,7 +106,7 @@ public class WaveManager
         // testing
         System.out.println("Wave number " + _waveNumber);
     }
-    
+
     /**
      * Erstellt eine neue Welle
      */
@@ -119,7 +120,7 @@ public class WaveManager
         // testing
         System.out.println("Wave number " + _waveNumber);
     }
-    
+
     /**
      * Gibt die aktuelle Wave wieder
      * @return _currentWave
@@ -128,20 +129,22 @@ public class WaveManager
     {
         return _currentWave;
     }
-    
+
     /**
      * Gibt die Nummer der Wave wieder
      * @return
      */
-    public String getWaveNumber() {
-    	return ""+_waveNumber;
+    public String getWaveNumber()
+    {
+        return "" + _waveNumber;
     }
-    
+
     /**
-     * Gibt die Maximale Anzahl der Wave zurück
+     * Gibt die Maximale Anzahl der Wave zurï¿½ck
      * @return
      */
-    public int getWave() {
-    	return _maxwave;
+    public int getWave()
+    {
+        return _maxwave;
     }
 }

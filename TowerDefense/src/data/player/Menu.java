@@ -2,7 +2,6 @@ package data.player;
 
 import static helpers.Artist.*;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import org.newdawn.slick.TrueTypeFont;
@@ -19,7 +18,6 @@ public class Menu
     int _thirdkosten;
     TrueTypeFont _font;
     String _auswahl;
-    
 
     public Menu()
     {
@@ -30,13 +28,13 @@ public class Menu
         _font = new TrueTypeFont(awtFont, false);
         _money = 1000;
         _kosten = 10;
-        _thirdkosten= 100;
+        _thirdkosten = 100;
         _auswahl = "first";
     }
 
     public void setPointer(String auswahl)
     {
-    	_auswahl = auswahl;
+        _auswahl = auswahl;
         switch (_auswahl)
         {
         case "first":
@@ -49,7 +47,7 @@ public class Menu
             break;
         case "third":
             _texture = quickLoadPngTexture("Turm3");
-            _kosten = _thirdkosten;
+            _kosten = 100;
             break;
         case "delete":
             _texture = quickLoadPngTexture("Loeschen");
@@ -60,14 +58,14 @@ public class Menu
             _kosten = 100;
             break;
         case "crazy":
-        	_texture = quickLoadPngTexture("crazymenu");
-        	_kosten = 200;
-        	break;
+            _texture = quickLoadPngTexture("crazymenu");
+            _kosten = 200;
+            break;
         case "tower5":
             _texture = quickLoadPngTexture("tower4");
             _kosten = 50;
             break;
-        	
+
         }
 
     }
@@ -115,13 +113,15 @@ public class Menu
     {
         _money = _money - money;
     }
-    
-    public void updateThirdMoney(int thirdkosten) {
-    	_thirdkosten = thirdkosten;
-    	_kosten = thirdkosten;
+
+    public void updateThirdMoney(int thirdkosten)
+    {
+        _thirdkosten = thirdkosten;
+        _kosten = thirdkosten;
     }
-    
-    public int getkosten() {
-    	return _kosten;
+
+    public int getkosten()
+    {
+        return _kosten;
     }
 }

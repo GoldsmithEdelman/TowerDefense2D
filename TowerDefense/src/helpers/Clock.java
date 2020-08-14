@@ -28,8 +28,6 @@ public class Clock
         int delta = (int) (currentTime - _lastFrame);
         _lastFrame = getTime();
         if (delta * 0.001f > 0.05f) return 0.05f; //fix for the enemies movement when the window moves
-        //         to be deleted
-        //         System.out.println(delta * 0.0 1f);
         return delta * 0.001f;
     }
 
@@ -68,13 +66,15 @@ public class Clock
             _multiplier += change;
         }
     }
-    
-    public static void stop() {
-    	_multiplier = 0;
+
+    public static void stop()
+    {
+        _multiplier = 0;
     }
-    
-    public static void resume() {
-    	_multiplier = 1;
+
+    public static void resume()
+    {
+        _multiplier = 1;
     }
 
     public static void pause()

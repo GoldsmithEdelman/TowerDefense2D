@@ -3,7 +3,6 @@ package data.tower.tower1;
 import static helpers.Artist.*;
 import static helpers.Clock.*;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
@@ -25,6 +24,7 @@ public class TowerCannon implements TowerBase
     private int _damage;
     private Texture _baseTexture;
     private Texture _cannonTexture;
+    @SuppressWarnings("unused")
     private Tile _startTile;
     private ArrayList<Projectile> _projectiles;
     private ArrayList<Enemy> _enemies;
@@ -36,14 +36,13 @@ public class TowerCannon implements TowerBase
     private float _rangeNormal;
     private Texture _normalTexture;
     private Texture _crazyTexture;
-    
 
-    public TowerCannon(Texture baseTexture,Texture crazyTexture, Tile startTile, int damage,
-            int range, ArrayList<Enemy> enemies)
+    public TowerCannon(Texture baseTexture, Texture crazyTexture,
+            Tile startTile, int damage, int range, ArrayList<Enemy> enemies)
     {
-		this._normalTexture = baseTexture;
-		this._crazyTexture = crazyTexture;
-    	this._range = range;
+        this._normalTexture = baseTexture;
+        this._crazyTexture = crazyTexture;
+        this._range = range;
         this._baseTexture = baseTexture;
         this._cannonTexture = quickLoadPngTexture("cannongun");
         this._startTile = startTile;
@@ -181,18 +180,22 @@ public class TowerCannon implements TowerBase
         return _y;
     }
 
-	@Override
-	public void crazyMode(boolean mode) {
-		if(mode) {
-			_firingSpeed = _firingSpeedNormal-2;
-			_range = _rangeNormal*2;
-			_damage = _damageNormal*2;
-			_baseTexture = _crazyTexture;
-		} else  {
-			_damage = _damageNormal;
-			_range = _rangeNormal;
-			_firingSpeed = _firingSpeedNormal;
-			_baseTexture = _normalTexture;
-		}
-	}
+    @Override
+    public void crazyMode(boolean mode)
+    {
+        if (mode)
+        {
+            _firingSpeed = _firingSpeedNormal - 2;
+            _range = _rangeNormal * 2;
+            _damage = _damageNormal * 2;
+            _baseTexture = _crazyTexture;
+        }
+        else
+        {
+            _damage = _damageNormal;
+            _range = _rangeNormal;
+            _firingSpeed = _firingSpeedNormal;
+            _baseTexture = _normalTexture;
+        }
+    }
 }

@@ -39,13 +39,14 @@ public class Enemy
     private int[] _directions;
     private boolean _canbeslowed;
 
-    public Enemy(Texture texture, Tile startTile, TileGrid grid, Menu menu,int width,
-            int height, float speed, int health, int reward, int dmgtoplayer, boolean canbeslowed)
+    public Enemy(Texture texture, Tile startTile, TileGrid grid, Menu menu,
+            int width, int height, float speed, int health, int reward,
+            int dmgtoplayer, boolean canbeslowed)
     {
-    	this._canbeslowed = canbeslowed;
-    	this._dmgtoplayer = dmgtoplayer;
-    	this._reward = reward;
-    	this._menu = menu;
+        this._canbeslowed = canbeslowed;
+        this._dmgtoplayer = dmgtoplayer;
+        this._reward = reward;
+        this._menu = menu;
         this._texture = texture;
         this._startTile = startTile;
         this._x = startTile.getX();
@@ -70,14 +71,11 @@ public class Enemy
             _first = false; //ignores calculating delta on a first update of the game
         else
         {
-            //            to be deleted
-            //            if (pathContinues()) _x += delta() * _speed; //if path continues then move forward
             if (checkpointReached())
             {
-                if (_currentCheckpoint + 1 == _checkpoints.size()) {
-                	
-                
-                    death();
+                if (_currentCheckpoint + 1 == _checkpoints.size())
+                {
+                    _alive = false;
                     _playerdmgcheck = true;
                 }
                 else
@@ -91,10 +89,6 @@ public class Enemy
                     .getY() * _speed;
             }
         }
-        // to be deleted
-        //
-        //            _x += delta() * _directions[0] * _speed;
-        //            _y += delta() * _directions[1] * _speed;
     }
 
     private boolean checkpointReached()
@@ -216,19 +210,6 @@ public class Enemy
         return direction;
     }
 
-    //    to be deleted
-    //    private boolean pathContinues()
-    //    {
-    //        boolean answer = true;
-    //
-    //        Tile currentTile = _grid.getTile((int) (_x / 64), (int) (_y / 64)); // (int) cast removes decimals; /64 takes us to an actual tile
-    //        Tile nextTile = _grid.getTile((int) (_x / 64) + 1, (int) (_y / 64)); //one tile to the right
-    //
-    //        if (currentTile.getType() != nextTile.getType()) answer = false;
-    //
-    //        return answer;
-    //    }
-
     private void death()
     {
         _alive = false;
@@ -300,9 +281,10 @@ public class Enemy
 
     public void setSpeed(float speed)
     {
-    	if(_canbeslowed) {
-    		this._speed = speed;
-    	}
+        if (_canbeslowed)
+        {
+            this._speed = speed;
+        }
     }
 
     public Texture getTexture()
@@ -344,31 +326,38 @@ public class Enemy
     {
         return _alive;
     }
-    
-    public void takedamage(int amount) {
-    	_health = _health - amount;
-    	if (_health<=0) {
-    		death();
-    	}
+
+    public void takedamage(int amount)
+    {
+        _health = _health - amount;
+        if (_health <= 0)
+        {
+            death();
+        }
     }
-    
-    public boolean getPlayerDMGCheck() {
-    	return _playerdmgcheck;
+
+    public boolean getPlayerDMGCheck()
+    {
+        return _playerdmgcheck;
     }
-    
-    public int getDMG() {
-    	return _dmgtoplayer;
+
+    public int getDMG()
+    {
+        return _dmgtoplayer;
     }
-    
-    public int getreward(){
-    	return _reward;
+
+    public int getreward()
+    {
+        return _reward;
     }
-    
-    public Menu getMenu() {
-    	return _menu;
+
+    public Menu getMenu()
+    {
+        return _menu;
     }
-    
-    public boolean getCanBeSlowed() {
-    	return _canbeslowed;
+
+    public boolean getCanBeSlowed()
+    {
+        return _canbeslowed;
     }
 }
