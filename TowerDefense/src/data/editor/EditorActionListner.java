@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 
 import org.lwjgl.input.Mouse;
 
+import data.field.Tile;
 import data.field.TileGrid;
 import data.field.TileType;
 
@@ -38,7 +39,6 @@ public class EditorActionListner
         if (true)
         {
             boolean missingSpawn = true;
-            System.out.println("Tile");
             for (int x = 0; x < _grid.getTilesWidth(); x++)
             {
                 for (int y = 1; y < _grid.getTilesHeight(); y++)
@@ -81,7 +81,7 @@ public class EditorActionListner
                         && !exit.equals(_grid.getTileType(x, y))
                         && !TileType.Save.equals(_grid.getTileType(x, y)))
                 {
-                    _ausgewaelt = _grid.getTileType(x, y);
+                	changeAusgewaelt(_grid.getTileType(x, y));
                     _art.select(x, y);
                 }
                 else if (exit.equals(_grid.getTileType(x, y)))
@@ -132,6 +132,55 @@ public class EditorActionListner
     {
         _grid.setTile((int) Math.floor(x), (int) Math.floor(y), type);
     }
+    
+    /**
+     * Gibt das Feld an der Position x, y zurueck
+     * @param x
+     * @param y
+     * @return 
+     */
+    public TileType getTile(int x, int y) {
+    	return _grid.getTile(x, y).getType();
+    }
+    
+    /**
+     * Aendert den ausgewhalten TileTyp
+     * @param typ
+     */
+    public void changeAusgewaelt(TileType typ) {
+    	if (	typ.equals(TileType.Dirt)
+    			||typ.equals(TileType.SPAWN)
+    			||typ.equals(TileType.Water)
+    			||typ.equals(TileType.Grass)
+    			||typ.equals(TileType.RED)
+    			) {
+    		_ausgewaelt = typ;
+		} 
+    }
+    
+    /**
+     * Gibt das Ausgewealte TileTyp zurueck
+     * @return
+     */
+    public TileType getAusgewaelt() {
+    	return _ausgewaelt;
+    }
+    
+    /**
+     * Setzt den ausgewahlten TileType in der Map
+     * @param x
+     * @param y
+     */
+    public void setTile(int x, int y) {
+    	if (!(y == 0)) {
+        	if(_ausgewaelt.equals(TileType.SPAWN)) {
+        		deletespawn();
+        		setTile(_ausgewaelt, x, y);
+        	} else {
+        		setTile(_ausgewaelt, x, y);
+        	}
+		}
+    }
 
     /**
      * Gibt den Status des Editors zurueck
@@ -159,7 +208,7 @@ public class EditorActionListner
     /**
      * Saves custom map
      */
-    private void savemap()
+    public void savemap()
     {
         File file = new File("customLevel");
         try

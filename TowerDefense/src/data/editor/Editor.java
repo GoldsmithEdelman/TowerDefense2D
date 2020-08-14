@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import data.field.TileGrid;
+import data.field.TileType;
 
 /**
  * Implements editor that allows player to create own map
@@ -27,6 +28,49 @@ public class Editor
         _grid = new TileGrid(map);
         oldmap(map);
         _listner = new EditorActionListner(_grid);
+    }
+    
+    /**
+     * Gibt das Feld an der Position x, y zurueck
+     * @param x
+     * @param y
+     * @return 
+     */
+    public TileType getTile(int x ,int y) {
+    	return _listner.getTile(x, y);
+    }
+    
+    /**
+     * Veraendert ein bestimmtes Feld
+     * @param x
+     * @param y
+     */
+    public void setTile(int x, int y)
+    {
+    	_listner.setTile( x, y);
+    }
+    
+    /**
+     * Gibt den Ausgewaehlten TileTyp zurueck
+     * @return
+     */
+    public TileType getAusgewaelt() {
+    	return _listner.getAusgewaelt();
+    }
+    
+    /**
+     * Veraendert den Ausgewaehlten TileTyp
+     * @param typ
+     */
+    public void setAusgewaelt(TileType typ) {
+    	_listner.changeAusgewaelt(typ);
+    }
+    
+    /**
+     * Saves custom map
+     */
+    public void savemap() {
+    	_listner.savemap();
     }
 
     /**
@@ -73,7 +117,6 @@ public class Editor
                         String[] parts = str.split("-");
                         table.add(parts);
                     }
-                    System.out.println(_grid.getTilesHeight() + " test");
                     if (table.size() == _grid.getTilesHeight()
                             || table.get(0).length == _grid.getTilesWidth())
                     {
@@ -81,7 +124,6 @@ public class Editor
                         {
                             for (int j = 0; j < table.get(i).length; j++)
                             {
-                                System.out.println(i + "/" + j);
                                 switch (table.get(i)[j])
                                 {
                                 case "Grass":

@@ -33,7 +33,6 @@ public class EditorArtist
      */
     public void select(int x, int y)
     {
-        System.out.println("x" + x + " y" + y);
         _ausgewahlt = new Tile(x * 64, y * 64, 64, 64,
                 TileType.EditorAusgewahlt);
     }

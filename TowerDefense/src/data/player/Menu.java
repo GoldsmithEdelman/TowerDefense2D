@@ -47,7 +47,7 @@ public class Menu
             break;
         case "third":
             _texture = quickLoadPngTexture("Turm3");
-            _kosten = 100;
+            _kosten = _thirdkosten;
             break;
         case "delete":
             _texture = quickLoadPngTexture("Loeschen");

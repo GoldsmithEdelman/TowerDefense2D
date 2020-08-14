@@ -68,7 +68,12 @@ public class TileGrid
                 case 5:
                     _map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.RED);
                     break;
+                default: 
+                	_map[i][j] = new Tile(i * 64, j * 64, 64, 64,
+                            TileType.Grass);
+                	break;
                 }
+                
 
             }
         }
@@ -110,7 +115,6 @@ public class TileGrid
 
     public TileType getTileType(int xTile, int yTile)
     {
-        System.out.println(xTile);
         if (xTile < _tilesWidth && yTile < _tilesHeight && xTile > -1
                 && yTile > -1)
         {

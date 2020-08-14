@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.TrueTypeFont;
 
+import data.editor.Editor;
 import data.enemy.Enemy;
 import data.enemy.WaveManager;
 import data.field.TileGrid;
@@ -57,6 +58,7 @@ public class Game
         _player = new Player(_grid, _waveManager, 50, _shop);
         _MaxWave = "?";
         createFond();
+       
     }
 
     /**
@@ -131,7 +133,9 @@ public class Game
                 System.out.println("Err loadEditorMap(int[][] map) 2");
                 e.printStackTrace();
             }
+            
         }
+        
     }
 
     /**
