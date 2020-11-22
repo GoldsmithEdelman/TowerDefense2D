@@ -1,5 +1,7 @@
 package data.startup;
 
+
+
 import static helpers.Artist.quickLoadPngTexture;
 
 import java.awt.Font;
